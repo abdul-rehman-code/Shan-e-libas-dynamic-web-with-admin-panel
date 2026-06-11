@@ -3,19 +3,95 @@
 @section('content')
     <!-- CSS styles for slider, transitions and premium typography -->
     <style>
-        .font-serif-luxury {
-            font-family: 'Playfair Display', serif;
+        .font-serif-luxury { font-family: 'Playfair Display', serif; }
+        .bg-light-beige { background-color: #FAF7F2; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* ===== RTL Scroll Animations (right → left) ===== */
+        .animate-rtl {
+            opacity: 0;
+            transform: translateX(80px);
+            transition: opacity 0.75s ease, transform 0.75s ease;
         }
-        .bg-light-beige {
-            background-color: #FAF7F2;
+        .animate-rtl.visible { opacity: 1; transform: translateX(0); }
+
+        /* ===== LTR Scroll Animations (left → right) ===== */
+        .animate-ltr {
+            opacity: 0;
+            transform: translateX(-80px);
+            transition: opacity 0.75s ease, transform 0.75s ease;
         }
-        /* Custom scrollbar hiding helper */
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
+        .animate-ltr.visible { opacity: 1; transform: translateX(0); }
+
+        /* ===== Clip animated sections to prevent horizontal overflow ===== */
+        .anim-clip { overflow: hidden; }
+
+        /* ===== Infinite Marquee / Ticker ===== */
+        .marquee-wrapper {
+            overflow: hidden;
+            position: relative;
+            background: #FAF7F2;
+            max-width: 100vw;
         }
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
+        .marquee-wrapper::before,
+        .marquee-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 0; bottom: 0;
+            width: 40px;
+            z-index: 2;
+            pointer-events: none;
+        }
+        .marquee-wrapper::before { left: 0;  background: linear-gradient(to right, #FAF7F2, transparent); }
+        .marquee-wrapper::after  { right: 0; background: linear-gradient(to left,  #FAF7F2, transparent); }
+
+        .marquee-track {
+            display: flex;
+            width: max-content;
+            animation: marquee-scroll 22s linear infinite;
+        }
+        .marquee-track:hover { animation-play-state: paused; }
+
+        .marquee-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0 24px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .marquee-divider {
+            width: 1px;
+            height: 28px;
+            background: #d4b99a;
+            flex-shrink: 0;
+        }
+
+        @keyframes marquee-scroll {
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* ===== Mobile Responsive Fixes ===== */
+        @media (max-width: 640px) {
+            /* Hero */
+            .hero-overlay-text h1 { font-size: 1.6rem !important; line-height: 1.25 !important; }
+            .hero-overlay-text p  { font-size: 0.78rem !important; }
+            .hero-overlay-text    { padding: 1.25rem !important; }
+
+            /* Marquee smaller on mobile */
+            .marquee-item { padding: 0 16px !important; gap: 8px !important; }
+            .marquee-item h4 { font-size: 10px !important; }
+            .marquee-item p  { font-size: 9px !important; }
+            .marquee-item > div:first-child { width: 28px; height: 28px; padding: 6px !important; }
+
+            /* Categories: 4 cols on mobile */
+            .cat-circle { width: 60px !important; height: 60px !important; }
+
+            /* Promo banner stacked */
+            .promo-banner { border-radius: 1.25rem !important; }
+            .promo-banner .promo-img { height: 220px !important; }
         }
     </style>
 
@@ -63,66 +139,112 @@
     </div>
 </section>
 
-    <!-- 2. Top Trust Badges Bar -->
-    <section class="bg-[#FAF7F2] py-8 border-b border-gray-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-4 divide-y md:divide-y-0 md:divide-x divide-gray-200/60">
-            <div class="flex items-center justify-center space-x-4 p-2">
-                <div class="p-3 bg-white rounded-full shadow-xs text-[#6E472D]">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/></svg>
+    <!-- 2. Trust Badges – Infinite Marquee Ticker -->
+    <section class="marquee-wrapper py-5 border-y border-gray-200/70">
+        <div class="marquee-track">
+            <!-- Set 1 -->
+            <div class="marquee-item">
+                <div class="p-2.5 bg-white rounded-full shadow-sm text-[#6E472D] shrink-0">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/></svg>
                 </div>
                 <div>
                     <h4 class="font-bold text-xs uppercase tracking-wider text-gray-900">Free Shipping</h4>
                     <p class="text-[11px] text-gray-500">On orders over PKR 5,000</p>
                 </div>
             </div>
-            <div class="flex items-center justify-center space-x-4 p-2 pt-4 md:pt-2">
-                <div class="p-3 bg-white rounded-full shadow-xs text-[#6E472D]">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            <div class="marquee-divider"></div>
+            <div class="marquee-item">
+                <div class="p-2.5 bg-white rounded-full shadow-sm text-[#6E472D] shrink-0">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
                 </div>
                 <div>
                     <h4 class="font-bold text-xs uppercase tracking-wider text-gray-900">Secure Payment</h4>
                     <p class="text-[11px] text-gray-500">100% secure checkout</p>
                 </div>
             </div>
-            <div class="flex items-center justify-center space-x-4 p-2 pt-4 md:pt-2">
-                <div class="p-3 bg-white rounded-full shadow-xs text-[#6E472D]">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121.21 8H18.5"/></svg>
+            <div class="marquee-divider"></div>
+            <div class="marquee-item">
+                <div class="p-2.5 bg-white rounded-full shadow-sm text-[#6E472D] shrink-0">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121.21 8H18.5"/></svg>
                 </div>
                 <div>
                     <h4 class="font-bold text-xs uppercase tracking-wider text-gray-900">Easy Returns</h4>
                     <p class="text-[11px] text-gray-500">30-days return policy</p>
                 </div>
             </div>
-            <div class="flex items-center justify-center space-x-4 p-2 pt-4 md:pt-2">
-                <div class="p-3 bg-white rounded-full shadow-xs text-[#6E472D]">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
+            <div class="marquee-divider"></div>
+            <div class="marquee-item">
+                <div class="p-2.5 bg-white rounded-full shadow-sm text-[#6E472D] shrink-0">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
                 </div>
                 <div>
                     <h4 class="font-bold text-xs uppercase tracking-wider text-gray-900">Premium Quality</h4>
                     <p class="text-[11px] text-gray-500">Finest materials & thread</p>
                 </div>
             </div>
+            <div class="marquee-divider"></div>
+            <!-- Set 2 (duplicate for seamless loop) -->
+            <div class="marquee-item">
+                <div class="p-2.5 bg-white rounded-full shadow-sm text-[#6E472D] shrink-0">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/></svg>
+                </div>
+                <div>
+                    <h4 class="font-bold text-xs uppercase tracking-wider text-gray-900">Free Shipping</h4>
+                    <p class="text-[11px] text-gray-500">On orders over PKR 5,000</p>
+                </div>
+            </div>
+            <div class="marquee-divider"></div>
+            <div class="marquee-item">
+                <div class="p-2.5 bg-white rounded-full shadow-sm text-[#6E472D] shrink-0">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                </div>
+                <div>
+                    <h4 class="font-bold text-xs uppercase tracking-wider text-gray-900">Secure Payment</h4>
+                    <p class="text-[11px] text-gray-500">100% secure checkout</p>
+                </div>
+            </div>
+            <div class="marquee-divider"></div>
+            <div class="marquee-item">
+                <div class="p-2.5 bg-white rounded-full shadow-sm text-[#6E472D] shrink-0">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121.21 8H18.5"/></svg>
+                </div>
+                <div>
+                    <h4 class="font-bold text-xs uppercase tracking-wider text-gray-900">Easy Returns</h4>
+                    <p class="text-[11px] text-gray-500">30-days return policy</p>
+                </div>
+            </div>
+            <div class="marquee-divider"></div>
+            <div class="marquee-item">
+                <div class="p-2.5 bg-white rounded-full shadow-sm text-[#6E472D] shrink-0">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
+                </div>
+                <div>
+                    <h4 class="font-bold text-xs uppercase tracking-wider text-gray-900">Premium Quality</h4>
+                    <p class="text-[11px] text-gray-500">Finest materials & thread</p>
+                </div>
+            </div>
+            <div class="marquee-divider"></div>
         </div>
     </section>
 
     <!-- 3. Browse Categories Circle Row -->
-  <section class="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
-    <div class="text-center mb-10">
-        <h2 class="text-3xl md:text-4xl font-normal text-gray-900 tracking-[0.25em] uppercase" style="font-family: 'Cormorant Garamond', serif;">
+  <section class="anim-clip max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-10 animate-ltr">
+        <h2 class="text-2xl md:text-4xl font-normal text-gray-900 tracking-[0.2em] uppercase" style="font-family: 'Cormorant Garamond', serif;">
             Browse Categories
         </h2>
         <div class="w-16 h-[1px] bg-[#6E472D] mx-auto mt-3"></div>
     </div>
 
-    <div class="grid grid-cols-3 md:grid-cols-6 gap-6 sm:gap-8">
+    <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3 sm:gap-4 md:gap-8">
         @forelse($categories as $cat)
-            <a href="{{ url('category/' . $cat->slug) }}" class="group flex flex-col items-center text-center">
-                <div class="w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden border border-gray-100 shadow-sm relative group transition duration-500 transform hover:scale-105 hover:shadow-md">
+            <a href="{{ url('category/' . $cat->slug) }}" class="animate-ltr group flex flex-col items-center text-center">
+                <div class="cat-circle w-20 h-20 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full overflow-hidden border border-gray-100 shadow-sm relative transition duration-500 transform hover:scale-105 hover:shadow-md">
                     <img src="{{ $cat->image ? asset('storage/' . $cat->image) : 'https://images.unsplash.com/photo-1509695507497-903c140c43b0?auto=format&fit=crop&q=80&w=400' }}"
                          alt="{{ $cat->name }}"
                          class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
                 </div>
-                <span class="mt-4 font-bold text-xs uppercase tracking-widest text-gray-800 group-hover:text-[#6E472D] transition">
+                <span class="mt-3 font-bold text-[10px] sm:text-xs uppercase tracking-widest text-gray-800 group-hover:text-[#6E472D] transition">
                     {{ $cat->name }}
                 </span>
             </a>
@@ -135,20 +257,19 @@
 </section>
 
     <!-- 4. New Arrivals Tabs and Grid Section -->
-<section class="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
-    <div class="text-center mb-12">
-        <h2 class="text-3xl md:text-4xl font-normal text-gray-900 tracking-[0.25em] uppercase" style="font-family: 'Cormorant Garamond', serif;">
+<section class="anim-clip max-w-7xl mx-auto py-10 md:py-16 px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-8 md:mb-12">
+        <h2 class="text-2xl md:text-4xl font-normal text-gray-900 tracking-[0.2em] uppercase" style="font-family: 'Cormorant Garamond', serif;">
             Popular Products
         </h2>
         <div class="w-16 h-[1px] bg-[#6E472D] mx-auto mt-4"></div>
     </div>
 
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 lg:gap-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
         @forelse($products as $prod)
-            {{-- Outer card se p-3.5 hata kar p-0 kar diya taakay image borders se touch ho jaye --}}
             <div class="group relative flex flex-col bg-white rounded-2xl overflow-hidden border border-gray-100 p-0 transition duration-500 hover:shadow-xl">
 
-                <div class="relative aspect-[3/4] w-full overflow-hidden bg-gray-50 rounded-t-2xl">
+                <div class="relative w-full overflow-hidden bg-gray-50 rounded-t-2xl" style="height: 350px;">
                     <a href="{{ url('product/' . $prod->slug) }}" class="block w-full h-full">
                         <img src="{{ $prod->image ? asset('storage/' . $prod->image) : 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&q=80&w=500' }}"
                              alt="{{ $prod->name }}"
@@ -156,7 +277,7 @@
                     </a>
                 </div>
 
-                <div class="flex flex-col flex-grow text-left p-4">
+                <div class="flex flex-col flex-grow text-left p-2 sm:p-4">
 
                     <a href="{{ url('product/' . $prod->slug) }}" class="text-sm font-semibold text-gray-900 hover:text-[#6E472D] transition line-clamp-1" style="font-family: 'Cormorant Garamond', serif; font-size: 16px;">
                         {{ $prod->name }}
@@ -187,9 +308,8 @@
     </div>
 </section>
     <!-- 5. Summer Collection Promotion Banner -->
-  <section class="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
-    {{-- Main Container: Iski height fix kar di hai taakay niche se width/height zyada na ho --}}
-    <div class="w-full rounded-[2.5rem] overflow-hidden relative flex flex-col md:flex-row items-stretch min-h-[350px] md:h-[420px] bg-gradient-to-r from-[#DFD3C3] via-[#F4EBE1] to-[#EBE3DB] shadow-lg border border-gray-100">
+  <section class="max-w-7xl mx-auto py-8 md:py-16 px-4 sm:px-6 lg:px-8">
+    <div class="animate-rtl promo-banner w-full rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden relative flex flex-col md:flex-row items-stretch min-h-[300px] md:h-[420px] bg-gradient-to-r from-[#DFD3C3] via-[#F4EBE1] to-[#EBE3DB] shadow-lg border border-gray-100">
 
         <!-- Text Content Left -->
         <div class="relative z-10 px-8 py-10 md:py-0 md:px-16 md:w-1/2 flex flex-col justify-center text-left space-y-4">
@@ -226,16 +346,32 @@
             </div>
         </div>
 
-        <!-- Image Right (Ab ye box ko niche se barhne nahi dega) -->
-        <div class="w-full md:w-1/2 h-64 md:h-full relative overflow-hidden">
+        <!-- Image Right -->
+        <div class="promo-img w-full md:w-1/2 h-52 sm:h-64 md:h-full relative overflow-hidden">
             <img src="{{ asset('banners/cover1.png') }}"
                  class="w-full h-full object-cover object-center md:object-right-bottom"
                  alt="Summer Vibes">
-            <!-- Smooth overlay matching background -->
             <div class="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-[#F4EBE1]/10 to-transparent pointer-events-none"></div>
         </div>
 
     </div>
 </section>
+
+<!-- Intersection Observer: RTL + LTR Animations -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.12 });
+
+        document.querySelectorAll('.animate-rtl, .animate-ltr').forEach(function (el) {
+            observer.observe(el);
+        });
+    });
+</script>
 
 @endsection

@@ -16,13 +16,15 @@
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
         .font-serif-luxury { font-family: 'Playfair Display', serif; }
+        /* Global horizontal scroll fix that preserves position: sticky */
+        html, body { overflow-x: clip !important; max-width: 100vw; }
     </style>
 </head>
 <body class="bg-[#FCFCFC] text-[#333333] flex flex-col min-h-screen antialiased">
 
      @include('partials.header')
 
-    <main class="flex-grow">
+    <main class="flex-grow w-full overflow-x-hidden">
         @yield('content')
     </main>
 

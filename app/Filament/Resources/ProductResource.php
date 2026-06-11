@@ -26,9 +26,9 @@ class ProductResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-cube';
 
     public static function form(Form $form): Form
-    {
-        return $form
-            ->schema([
+{
+    return $form
+        ->schema([
             // Category Dropdown Relationship
             Select::make('category_id')
                 ->relationship('category', 'name')
@@ -58,11 +58,19 @@ class ProductResource extends Resource
                 ->numeric()
                 ->prefix('PKR'),
 
-            // Toggle::make('is_featured')
-            //     ->label('Featured Product (Home Page)')
-            //     ->default(false),
+            // NAYA TAGS DROPDOWN (Yahan add kiya hy)
+            Select::make('tag')
+                ->label('Product Tag / Event')
+                ->options([
+                    'bridal' => 'Bridal',
+                    'formal' => 'Formal',
+                    'casual' => 'Casual',
+                    'handbags' => 'Handbags',
+                ])
+                ->searchable()
+                ->placeholder('Select a tag for filtering'),
 
-                Toggle::make('is_active')
+            Toggle::make('is_active')
                 ->label('Active Product (Home Page)')
                 ->default(true),
 
@@ -74,8 +82,7 @@ class ProductResource extends Resource
             RichEditor::make('description')
                 ->columnSpanFull(),
         ]);
-    }
-
+}
     public static function table(Table $table): Table
     {
         return $table
