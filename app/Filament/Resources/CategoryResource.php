@@ -13,47 +13,68 @@ use Filament\Tables;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Intervention\Image\ImageManagerStatic as Image;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
 class CategoryResource extends Resource
 {
     protected static ?string $model = Category::class;
 
-   protected static ?string $navigationIcon = 'heroicon-o-tag';
+    protected static ?string $navigationIcon = 'heroicon-o-tag';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-            TextInput::make('name')
-                ->required()
-                ->live(onBlur: true)
-                ->afterStateUpdated(fn (string $operation, $state, $set) =>
-                    $operation === 'create' ? $set('slug', Str::slug($state)) : null
-                ),
+                TextInput::make('name')
+                    ->required()
+                    ->live(onBlur: true)
+                    ->afterStateUpdated(fn (string $operation, $state, $set) =>
+                        $operation === 'create' ? $set('slug', Str::slug($state)) : null
+                    ),
 
-            TextInput::make('slug')
-                ->disabled()
-                ->dehydrated()
-                ->required()
-                ->unique(Category::class, 'slug', ignoreRecord: true),
+                TextInput::make('slug')
+                    ->disabled()
+                    ->dehydrated()
+                    ->required()
+                    ->unique(Category::class, 'slug', ignoreRecord: true),
 
-            FileUpload::make('image')
-                ->image()
-                ->directory('categories')
-                ->columnSpanFull(),
-        ]);
+                FileUpload::make('image')
+                    ->label('Category Image')
+                    ->image()
+                    ->directory('categories')
+                    ->columnSpanFull()
+                    ->saveUploadedFileUsing(function (TemporaryUploadedFile $file) {
+                        // 1. Temporary file read karein
+                        $img = Image::make($file->getRealPath());
+
+                        // 2. WebP filename aur path setup
+                        $filename = Str::random(40) . '.webp';
+                        $path = 'categories/' . $filename;
+
+                        // 3. WebP format mein encode karein (80% quality)
+                        $encoded = $img->encode('webp', 80);
+
+                        // 4. Public storage disk par save karein
+                        Storage::disk('public')->put($path, (string) $encoded);
+
+                        // 5. Database Column ke liye relative path return karein
+                        return $path;
+                    }),
+            ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
-           ->columns([
-            ImageColumn::make('image'),
-            TextColumn::make('name')->searchable(),
-            TextColumn::make('slug'),
-            TextColumn::make('created_at')->dateTime()->sortable(),
-        ])
+            ->columns([
+                ImageColumn::make('image'),
+                TextColumn::make('name')->searchable(),
+                TextColumn::make('slug'),
+                TextColumn::make('created_at')->dateTime()->sortable(),
+            ])
             ->filters([
                 //
             ])

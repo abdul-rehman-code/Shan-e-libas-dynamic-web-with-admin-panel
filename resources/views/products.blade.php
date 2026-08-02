@@ -14,7 +14,46 @@
     }
 </style>
 
-<div class="bg-[#FDFBF7] min-h-screen font-sans pb-10">
+<div class="bg-[#FDFBF7] min-h-screen font-sans pb-10"
+    x-data="{ 
+        categoryId: '{{ $category_id ?? '' }}', 
+        tag: '{{ $tag_name ?? '' }}', 
+        sort: '{{ request('sort', 'latest') }}', 
+        search: '{{ request('search', '') }}', 
+        loading: false,
+        productsCount: {{ $products->count() }},
+        
+        fetchProducts() {
+            this.loading = true;
+            let baseUrl = '{{ url('/all-products') }}';
+            let url = new URL(baseUrl, window.location.origin);
+            
+            if (this.categoryId) {
+                url.pathname = '/all-products/' + this.categoryId;
+            } else {
+                url.pathname = '/all-products';
+            }
+            
+            if (this.tag) url.searchParams.set('tag', this.tag);
+            if (this.sort && this.sort !== 'latest') url.searchParams.set('sort', this.sort);
+            if (this.search) url.searchParams.set('search', this.search);
+            
+            window.history.pushState({}, '', url);
+
+            fetch(url, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'application/json'
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('product-grid-container').innerHTML = data.html;
+                this.productsCount = data.count;
+                this.loading = false;
+            });
+        }
+    }">
 
     <!-- Hero Banner -->
     <div class="relative w-full overflow-hidden bg-[#241A14] flex items-center mb-12 sm:min-h-[450px] shadow-sm" style="background: linear-gradient(135deg, #3A2B24 0%, #1A130F 100%);">
@@ -87,7 +126,7 @@
 
                     <!-- Search Input Wrapper -->
                     <div x-show="searchOpen" x-transition class="lg:!block relative mt-2 lg:mt-0" style="display: none;">
-                        <input type="text" placeholder="Search products..." class="w-full bg-white border border-gray-100 rounded-full py-3.5 px-6 text-sm shadow-sm focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] transition-all placeholder-gray-400">
+                        <input type="text" x-model="search" @input.debounce.500ms="fetchProducts()" placeholder="Search products..." class="w-full bg-white border border-gray-100 rounded-full py-3.5 px-6 text-sm shadow-sm focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] transition-all placeholder-gray-400">
                         <button class="absolute right-5 top-1/2 transform -translate-y-1/2 text-[#D4AF37] hover:text-[#6E472D] transition-colors">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
                         </button>
@@ -100,27 +139,26 @@
                 <ul class="flex overflow-x-auto lg:flex-col lg:overflow-visible space-x-3 lg:space-x-0 lg:space-y-3 pb-2 lg:pb-0 scrollbar-hide items-center lg:items-stretch snap-x">
 
                     <li class="flex-shrink-0 snap-start">
-                        <a href="{{ route('products.all') }}" class="flex items-center justify-between {{ is_null($category_id) ? 'bg-[#6E472D] text-white shadow-md' : 'bg-white text-gray-600 border border-transparent hover:border-gray-100 hover:bg-gray-50 shadow-sm' }} rounded-full px-5 py-2.5 lg:px-6 lg:py-3 text-sm transition-transform hover:-translate-y-0.5 duration-300">
+                        <button @click="categoryId=''; tag=''; search=''; fetchProducts()" :class="!categoryId && !tag ? 'bg-[#6E472D] text-white shadow-md' : 'bg-white text-gray-600 border border-transparent hover:border-gray-100 hover:bg-gray-50 shadow-sm'" class="flex items-center justify-between rounded-full px-5 py-2.5 lg:px-6 lg:py-3 text-sm transition-transform hover:-translate-y-0.5 duration-300 w-full text-left">
                             <span class="font-medium tracking-wide whitespace-nowrap">All Products</span>
-                        </a>
+                        </button>
                     </li>
 
                     @foreach($categories as $category)
                         <li class="flex-shrink-0 snap-start">
-                            <a href="{{ route('products.all', $category->id) }}"
-                            class="flex items-center gap-2 lg:justify-between rounded-full px-5 py-2.5 lg:px-6 lg:py-3 text-sm shadow-sm border transition-all duration-300 group
-                                    {{ $category_id == $category->id ? 'bg-[#6E472D] text-white border-[#6E472D]' : 'bg-white text-gray-600 border-transparent hover:border-gray-100 hover:bg-gray-50' }}">
+                            <button @click="categoryId='{{ $category->id }}'; fetchProducts()"
+                            :class="categoryId == '{{ $category->id }}' ? 'bg-[#6E472D] text-white border-[#6E472D]' : 'bg-white text-gray-600 border-transparent hover:border-gray-100 hover:bg-gray-50'" class="flex w-full items-center gap-2 lg:justify-between rounded-full px-5 py-2.5 lg:px-6 lg:py-3 text-sm shadow-sm border transition-all duration-300 group">
 
-                                <span class="{{ $category_id == $category->id ? 'text-white' : 'group-hover:text-[#6E472D]' }} transition-colors whitespace-nowrap">
+                                <span :class="categoryId == '{{ $category->id }}' ? 'text-white' : 'group-hover:text-[#6E472D]'" class="transition-colors whitespace-nowrap">
                                     {{ $category->name }}
                                 </span>
 
                                 @if(method_exists($category, 'products'))
-                                    <span class="{{ $category_id == $category->id ? 'bg-white text-[#6E472D]' : 'bg-[#D4AF37] text-white' }} text-[10px] lg:text-xs font-bold rounded-full w-5 h-5 lg:w-6 lg:h-6 flex items-center justify-center shadow-inner shrink-0">
-                                        {{ $category->products()->count() }}
+                                    <span :class="categoryId == '{{ $category->id }}' ? 'bg-white text-[#6E472D]' : 'bg-[#D4AF37] text-white'" class="text-[10px] lg:text-xs font-bold rounded-full w-5 h-5 lg:w-6 lg:h-6 flex items-center justify-center shadow-inner shrink-0">
+                                        {{ $category->products_count ?? 0 }}
                                     </span>
                                 @endif
-                            </a>
+                            </button>
                         </li>
                     @endforeach
 
@@ -132,29 +170,16 @@
     <h3 class="text-xl font-medium text-gray-900 mb-4 hidden lg:block" style="font-family: 'Cormorant Garamond', serif;">Popular Tags</h3>
     <div class="flex overflow-x-auto lg:flex-wrap gap-2 pb-2 lg:pb-0 scrollbar-hide snap-x">
 
-        <a href="{{ route('products.tag', 'bridal') }}"
-           class="flex-shrink-0 snap-start px-4 py-2 rounded-full text-xs font-medium transition-all duration-300 border
-                  {{ isset($tag_name) && $tag_name == 'bridal' ? 'bg-[#6E472D] text-white border-[#6E472D]' : 'bg-white text-gray-600 border-gray-100 hover:bg-gray-50 shadow-sm' }}">
-            Bridal
-        </a>
-
-        <a href="{{ route('products.tag', 'formal') }}"
-           class="flex-shrink-0 snap-start px-4 py-2 rounded-full text-xs font-medium transition-all duration-300 border
-                  {{ isset($tag_name) && $tag_name == 'formal' ? 'bg-[#6E472D] text-white border-[#6E472D]' : 'bg-white text-gray-600 border-gray-100 hover:bg-gray-50 shadow-sm' }}">
-            Formal
-        </a>
-
-        <a href="{{ route('products.tag', 'casual') }}"
-           class="flex-shrink-0 snap-start px-4 py-2 rounded-full text-xs font-medium transition-all duration-300 border
-                  {{ isset($tag_name) && $tag_name == 'casual' ? 'bg-[#6E472D] text-white border-[#6E472D]' : 'bg-white text-gray-600 border-gray-100 hover:bg-gray-50 shadow-sm' }}">
-            Casual
-        </a>
-
-        <a href="{{ route('products.tag', 'handbags') }}"
-           class="flex-shrink-0 snap-start px-4 py-2 rounded-full text-xs font-medium transition-all duration-300 border
-                  {{ isset($tag_name) && $tag_name == 'handbags' ? 'bg-[#6E472D] text-white border-[#6E472D]' : 'bg-white text-gray-600 border-gray-100 hover:bg-gray-50 shadow-sm' }}">
-            Handbags
-        </a>
+        @php
+            $tags = ['bridal' => 'Bridal', 'formal' => 'Formal', 'casual' => 'Casual', 'handbags' => 'Handbags'];
+        @endphp
+        @foreach($tags as $key => $label)
+            <button @click="tag='{{ $key }}'; fetchProducts()"
+               :class="tag == '{{ $key }}' ? 'bg-[#6E472D] text-white border-[#6E472D]' : 'bg-white text-gray-600 border-gray-100 hover:bg-gray-50 shadow-sm'"
+               class="flex-shrink-0 snap-start px-4 py-2 rounded-full text-xs font-medium transition-all duration-300 border">
+                {{ $label }}
+            </button>
+        @endforeach
 
     </div>
 </div>
@@ -165,27 +190,16 @@
 
                 <!-- Toolbar -->
                 <div class="flex flex-col sm:flex-row justify-between items-center bg-white p-4 px-6 rounded-2xl shadow-sm border border-gray-50 mb-8">
-                    <p class="text-sm text-gray-500 mb-4 sm:mb-0">Showing <span class="font-bold text-gray-900">{{ $products->count() }}</span> results</p>
+                    <p class="text-sm text-gray-500 mb-4 sm:mb-0">Showing <span class="font-bold text-gray-900" x-text="productsCount">{{ $products->count() }}</span> results</p>
                     <div class="flex items-center gap-3">
                         <span class="text-sm text-gray-500">Sort by:</span>
                        <div class="relative">
-                        <select onchange="location = this.value;"
+                        <select x-model="sort" @change="fetchProducts()"
                                 class="appearance-none bg-gray-50 border border-gray-100 text-gray-700 text-sm rounded-xl focus:ring-1 focus:ring-[#D4AF37] focus:border-[#D4AF37] block py-2.5 pl-4 pr-10 outline-none cursor-pointer hover:bg-gray-100 transition-colors">
 
-                            <option value="{{ request()->fullUrlWithQuery(['sort' => 'latest']) }}"
-                                    {{ request('sort') == 'latest' || !request('sort') ? 'selected' : '' }}>
-                                Latest
-                            </option>
-
-                            <option value="{{ request()->fullUrlWithQuery(['sort' => 'price_low']) }}"
-                                    {{ request('sort') == 'price_low' ? 'selected' : '' }}>
-                                Price: Low to High
-                            </option>
-
-                            <option value="{{ request()->fullUrlWithQuery(['sort' => 'price_high']) }}"
-                                    {{ request('sort') == 'price_high' ? 'selected' : '' }}>
-                                Price: High to Low
-                            </option>
+                            <option value="latest">Latest</option>
+                            <option value="price_low">Price: Low to High</option>
+                            <option value="price_high">Price: High to Low</option>
                         </select>
 
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
@@ -198,59 +212,9 @@
                 </div>
 
                 <!-- Product Grid -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-
-    @foreach($products as $product)
-        <div class="bg-white rounded-[2rem] p-5 shadow-sm border border-gray-50 hover:shadow-xl hover:border-gray-100 transition-all duration-500 hover:-translate-y-1 group flex flex-col">
-
-            <div class="relative w-full h-56 rounded-[1.5rem] overflow-hidden mb-5 bg-gray-50">
-                @if($product->old_price && $product->old_price > $product->price)
-                    <div class="absolute top-4 left-4 bg-red-500 text-white text-[10px] font-bold px-3 py-1 rounded-lg z-10 tracking-widest shadow-sm">SALE</div>
-                @endif
-
-                {{-- <a href="{{ route('product.show', $product->id) }}"> --}}
-                    <a href="#">
-                    <img src="{{ Str::startsWith($product->image, 'http') ? $product->image : asset('storage/' . $product->image) }}"
-                         alt="{{ $product->name }}"
-                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out">
-                </a>
-            </div>
-
-            <div class="flex-grow text-center">
-                {{-- <a href="{{ route('product.show', $product->id) }}" class="block mb-1"> --}}
-                    <a href="#" class="block mb-1">
-                    <h3 class="font-bold text-gray-900 text-xl leading-tight group-hover:text-[#6E472D] transition-colors line-clamp-1" style="font-family: 'Cormorant Garamond', serif;">
-                        {{ $product->name }}
-                    </h3>
-                </a>
-
-                <p class="text-[11px] uppercase tracking-wider text-gray-400 mb-1 mt-3">Starting from</p>
-
-                <div class="flex items-center justify-center gap-3 mb-5">
-                    <span class="text-[#D4AF37] font-bold text-lg">Rs. {{ number_format($product->price) }}</span>
-                    @if($product->old_price)
-                        <span class="text-gray-400 line-through text-xs">Rs. {{ number_format($product->old_price) }}</span>
-                    @endif
+                <div id="product-grid-container" :class="loading ? 'opacity-50' : ''" class="transition-opacity duration-300">
+                    @include('partials.product_grid')
                 </div>
-            </div>
-
-            <form action="#" method="POST" class="w-full mt-auto">
-                @csrf
-                <input type="hidden" name="product_id" value="{{ $product->id }}">
-                <input type="hidden" name="quantity" value="1">
-
-                <button type="submit" class="w-full bg-[#6E472D] hover:bg-[#5A3924] text-white flex items-center justify-center gap-2 py-3 rounded-xl transition-all duration-300 text-sm font-medium shadow-md hover:shadow-lg">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                    </svg>
-                    Add to Cart
-                </button>
-            </form>
-
-        </div>
-    @endforeach
-
-</div>
             </div>
         </div>
     </div>

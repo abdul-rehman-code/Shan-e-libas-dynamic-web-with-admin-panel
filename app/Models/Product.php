@@ -8,6 +8,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Product extends Model
 {
     protected $guarded = [];
+    protected function casts(): array
+    {
+        return [
+            'image' => 'array',
+        ];
+    }
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);

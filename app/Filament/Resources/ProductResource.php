@@ -17,7 +17,10 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Intervention\Image\ImageManagerStatic as Image;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
 class ProductResource extends Resource
 {
@@ -26,75 +29,88 @@ class ProductResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-cube';
 
     public static function form(Form $form): Form
-{
-    return $form
-        ->schema([
-            // Category Dropdown Relationship
-            Select::make('category_id')
-                ->relationship('category', 'name')
-                ->searchable()
-                ->preload()
-                ->required(),
+    {
+        return $form
+            ->schema([
+                // Category Dropdown Relationship
+                Select::make('category_id')
+                    ->relationship('category', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->required(),
 
-            TextInput::make('name')
-                ->required()
-                ->live(onBlur: true)
-                ->afterStateUpdated(fn (string $operation, $state, $set) =>
-                    $operation === 'create' ? $set('slug', Str::slug($state)) : null
-                ),
+                TextInput::make('name')
+                    ->required()
+                    ->live(onBlur: true)
+                    ->afterStateUpdated(fn (string $operation, $state, $set) =>
+                        $operation === 'create' ? $set('slug', Str::slug($state)) : null
+                    ),
 
-            TextInput::make('slug')
-                ->disabled()
-                ->dehydrated()
-                ->required()
-                ->unique(Product::class, 'slug', ignoreRecord: true),
+                TextInput::make('slug')
+                    ->disabled()
+                    ->dehydrated()
+                    ->required()
+                    ->unique(Product::class, 'slug', ignoreRecord: true),
 
-            TextInput::make('price')
-                ->numeric()
-                ->required()
-                ->prefix('PKR'),
+                TextInput::make('price')
+                    ->numeric()
+                    ->required()
+                    ->prefix('PKR'),
 
-            TextInput::make('sale_price')
-                ->numeric()
-                ->prefix('PKR'),
+                TextInput::make('sale_price')
+                    ->numeric()
+                    ->prefix('PKR'),
 
-            // NAYA TAGS DROPDOWN (Yahan add kiya hy)
-            Select::make('tag')
-                ->label('Product Tag / Event')
-                ->options([
-                    'bridal' => 'Bridal',
-                    'formal' => 'Formal',
-                    'casual' => 'Casual',
-                    'handbags' => 'Handbags',
-                ])
-                ->searchable()
-                ->placeholder('Select a tag for filtering'),
+                // Tags Dropdown
+                Select::make('tag')
+                    ->label('Product Tag / Event')
+                    ->options([
+                        'bridal' => 'Bridal',
+                        'formal' => 'Formal',
+                        'casual' => 'Casual',
+                        'handbags' => 'Handbags',
+                    ])
+                    ->searchable()
+                    ->placeholder('Select a tag for filtering'),
 
-            Toggle::make('is_active')
-                ->label('Active Product (Home Page)')
-                ->default(true),
+                Toggle::make('is_active')
+                    ->label('Active Product (Home Page)')
+                    ->default(true),
 
-            FileUpload::make('image')
-                ->image()
-                ->directory('products')
-                ->columnSpanFull(),
+                // FileUpload with Auto WebP Conversion
+                FileUpload::make('image')
+                    ->label('Product Images (First image will be thumbnail)')
+                    ->image()
+                    ->multiple()
+                    ->reorderable()
+                    ->directory('products')
+                    ->columnSpanFull()
+                    ->saveUploadedFileUsing(function (TemporaryUploadedFile $file) {
+                        $img = Image::make($file->getRealPath());
+                        $filename = Str::random(40) . '.webp';
+                        $path = 'products/' . $filename;
+                        $encoded = $img->encode('webp', 80);
+                        Storage::disk('public')->put($path, (string) $encoded);
+                        return $path;
+                    }),
 
-            RichEditor::make('description')
-                ->columnSpanFull(),
-        ]);
-}
+                RichEditor::make('description')
+                    ->columnSpanFull(),
+            ]);
+    }
+
     public static function table(Table $table): Table
     {
         return $table
-           ->columns([
-            ImageColumn::make('image'),
-            TextColumn::make('name')->searchable()->sortable(),
-            TextColumn::make('category.name')->sortable(), // Category ka naam table mein dikhane k liye
-            TextColumn::make('price')->money('PKR')->sortable(),
-            IconColumn::make('is_featured')->boolean(),
-            IconColumn::make('is_active')->boolean(),
-            TextColumn::make('created_at')->dateTime(),
-        ])
+            ->columns([
+                ImageColumn::make('image'),
+                TextColumn::make('name')->searchable()->sortable(),
+                TextColumn::make('category.name')->sortable(),
+                TextColumn::make('price')->money('PKR')->sortable(),
+                IconColumn::make('is_featured')->boolean(),
+                IconColumn::make('is_active')->boolean(),
+                TextColumn::make('created_at')->dateTime(),
+            ])
             ->filters([
                 //
             ])

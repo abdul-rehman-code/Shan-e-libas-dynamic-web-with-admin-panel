@@ -66,22 +66,22 @@
         <div class="w-16 h-[1px] bg-[#6E472D] mx-auto mt-4"></div>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8" id="category-grid">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 md:gap-8" id="category-grid">
         @forelse($categories as $index => $cat)
-            <a href="{{ url('category/' . $cat->slug) }}" 
-               class="bg-white rounded-[2rem] p-8 md:p-12 flex flex-col items-center text-center shadow-sm border border-gray-50 hover:shadow-lg hover:border-gray-100 transition-all duration-500 hover:-translate-y-2 group stagger-item" 
-               data-index="{{ $index }}">
+           <a href="{{ url('all-products/' . $cat->id) }}" 
+            class="bg-white rounded-[1.5rem] sm:rounded-[2rem] p-4 sm:p-8 md:p-12 flex flex-col items-center text-center shadow-sm border border-gray-50 hover:shadow-lg hover:border-gray-100 transition-all duration-500 hover:-translate-y-2 group stagger-item" 
+            data-index="{{ $index }}">
                 
-                <div class="w-28 h-28 md:w-32 md:h-32 rounded-full bg-[#FAF6F0] flex items-center justify-center p-2 mb-6 shadow-inner relative overflow-hidden">
+                <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 rounded-full bg-[#FAF6F0] flex items-center justify-center p-1.5 sm:p-2 mb-4 sm:mb-6 shadow-inner relative overflow-hidden">
                     <img src="{{ $cat->image ? asset('storage/' . $cat->image) : 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=400' }}"
                          alt="{{ $cat->name }}"
                          class="w-full h-full object-cover rounded-full group-hover:scale-110 transition duration-700 ease-in-out">
                 </div>
 
-               <h3 class="font-bold text-lg md:text-xl tracking-wide text-gray-900 group-hover:text-[#D4AF37] transition-colors duration-300" style="font-family: 'Cormorant Garamond', serif;">
+               <h3 class="font-bold text-sm sm:text-lg md:text-xl tracking-wide text-gray-900 group-hover:text-[#D4AF37] transition-colors duration-300" style="font-family: 'Cormorant Garamond', serif;">
                 {{ $cat->name }}
                </h3>
-               <span class="text-[10px] sm:text-xs text-gray-400 mt-2 uppercase tracking-[0.2em] font-light">Collection</span>
+               <span class="text-[9px] sm:text-xs text-gray-400 mt-1 sm:mt-2 uppercase tracking-[0.2em] font-light">Collection</span>
             </a>
         @empty
             <div class="col-span-full text-center py-10 text-gray-500 text-sm">
