@@ -78,21 +78,21 @@ class ProductResource extends Resource
                     ->default(true),
 
                 // FileUpload with Auto WebP Conversion
-                FileUpload::make('image')
-                    ->label('Product Images (First image will be thumbnail)')
-                    ->image()
-                    ->multiple()
-                    ->reorderable()
-                    ->directory('products')
-                    ->columnSpanFull()
-                    ->saveUploadedFileUsing(function (TemporaryUploadedFile $file) {
-                        $img = Image::make($file->getRealPath());
-                        $filename = Str::random(40) . '.webp';
-                        $path = 'products/' . $filename;
-                        $encoded = $img->encode('webp', 80);
-                        Storage::disk('public')->put($path, (string) $encoded);
-                        return $path;
-                    }),
+               FileUpload::make('image')
+    ->label('Product Images (First image will be thumbnail)')
+    ->multiple()
+    ->reorderable()
+    ->directory('products')
+    ->columnSpanFull()
+    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp', 'image/jpg'])
+    ->saveUploadedFileUsing(function (TemporaryUploadedFile $file) {
+        $img = Image::make($file->getRealPath());
+        $filename = Str::random(40) . '.webp';
+        $path = 'products/' . $filename;
+        $encoded = $img->encode('webp', 80);
+        Storage::disk('public')->put($path, (string) $encoded);
+        return $path;
+    }),
 
                 RichEditor::make('description')
                     ->columnSpanFull(),
