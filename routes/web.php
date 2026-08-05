@@ -5,6 +5,7 @@ use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\CheckoutController;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -24,7 +25,8 @@ Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 
 Route::patch('/cart/update', [CartController::class, 'update'])->name('cart.update');
 Route::get('/product/{slug}', [ProductController::class, 'show'])->name('product.show');
-
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
+Route::post('/place-order', [CheckoutController::class, 'placeOrder'])->name('place.order');
 
 
 

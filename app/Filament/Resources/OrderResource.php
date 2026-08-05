@@ -14,6 +14,9 @@ use Filament\Tables;
 use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Actions\ViewAction;
+use Filament\Forms\Components\FileUpload;
 
 class OrderResource extends Resource
 {
@@ -39,27 +42,54 @@ class OrderResource extends Resource
                     'delivered' => 'Delivered',
                     'cancelled' => 'Cancelled',
                 ])->required(),
+
+                FileUpload::make('payment_screenshot')
+                ->label('Payment Screenshot / Receipt')
+                ->image()
+                ->disk('public') 
+                ->disabled()    
+                ->openable()     
+                ->columnSpanFull(),
         ]);
     }
 
     public static function table(Table $table): Table
     {
-        return $table
-            ->columns([
-            TextColumn::make('id')->label('Order ID')->sortable(),
-            TextColumn::make('customer_name')->searchable(),
-            TextColumn::make('total_amount')->money('PKR')->sortable(),
-            // Admin direct table se status change kar sakega
-            SelectColumn::make('status')
-                ->options([
-                    'pending' => 'Pending',
-                    'processing' => 'Processing',
-                    'shipped' => 'Shipped',
-                    'delivered' => 'Delivered',
-                    'cancelled' => 'Cancelled',
-                ]),
-            TextColumn::make('created_at')->dateTime()->sortable(),
-        ])
+      return $table
+    ->columns([
+        TextColumn::make('id')->label('Order ID')->sortable(),
+        TextColumn::make('customer_name')->searchable(),
+        TextColumn::make('customer_phone')->label('Phone')->searchable(),
+        TextColumn::make('shipping_address')->label('Address')->limit(20),
+  TextColumn::make('items_list')
+    ->label('Items')
+    ->badge()
+    ->state(function ($record) {
+        return $record->items->map(function ($item) {
+            $productName = $item->product?->name ?? 'Item';
+            return "{$productName} x{$item->quantity}";
+        })->implode(', ');
+    })
+    ->listWithLineBreaks(),
+        ImageColumn::make('payment_screenshot')
+                                            ->label('Screenshot')
+                                            ->square()
+                                            ->openUrlInNewTab()
+                                            ->disk('public'),
+
+        TextColumn::make('total_amount')->money('PKR')->sortable(),
+
+        SelectColumn::make('status')
+            ->options([
+                'pending' => 'Pending',
+                'processing' => 'Processing',
+                'shipped' => 'Shipped',
+                'delivered' => 'Delivered',
+                'cancelled' => 'Cancelled',
+            ]),
+
+        TextColumn::make('created_at')->dateTime()->sortable(),
+    ])
             ->filters([
                 //
             ])

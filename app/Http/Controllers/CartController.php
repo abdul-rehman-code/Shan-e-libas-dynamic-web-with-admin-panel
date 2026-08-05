@@ -46,7 +46,7 @@ class CartController extends Controller
     public function index()
     {
         $cart = session()->get('cart', []);
-        return view('cart', compact('cart'));
+        return view('Cart', compact('cart'));
     }
 
     // --- NAYA UPDATE FUNCTION AJAX K LIYE YAHAN HY ---

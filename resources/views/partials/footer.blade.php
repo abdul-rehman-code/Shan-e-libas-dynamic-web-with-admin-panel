@@ -35,7 +35,7 @@
                     <li><a href="{{ url('/categories') }}" class="text-sm text-gray-500 hover:text-[#6E472D] transition">Categories</a></li>
                     <li><a href="{{ route('products.all') }}" class="text-sm text-gray-500 hover:text-[#6E472D] transition">All Products</a></li>
                     <li><a href="{{ url('/about-us') }}" class="text-sm text-gray-500 hover:text-[#6E472D] transition">About Us</a></li>
-                    <li><a href="/customize-dress" class="text-sm text-gray-500 hover:text-[#6E472D] transition">Customize Dress</a></li>
+                    <!-- <li><a href="/customize-dress" class="text-sm text-gray-500 hover:text-[#6E472D] transition">Customize Dress</a></li> -->
                     <li><a href="{{ url('/contact-us') }}" class="text-sm text-gray-500 hover:text-[#6E472D] transition">Contact</a></li>
                 </ul>
             </div>

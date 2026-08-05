@@ -86,7 +86,7 @@
                         <span id="cart-total" class="text-xl font-extrabold text-[#6E472D]">Rs. {{ number_format($grandTotal) }}</span>
                     </div>
 
-                    <a href="#" class="block w-full bg-[#6E472D] hover:bg-[#533521] text-white text-xs font-bold uppercase tracking-widest text-center py-4 px-4 rounded-lg transition duration-300 shadow-xs">
+                    <a href="{{ route('checkout') }}" class="block w-full bg-[#6E472D] hover:bg-[#533521] text-white text-xs font-bold uppercase tracking-widest text-center py-4 px-4 rounded-lg transition duration-300 shadow-xs">
                         Proceed to Checkout
                     </a>
                 </div>
