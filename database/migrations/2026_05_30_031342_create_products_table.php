@@ -20,7 +20,7 @@ return new class extends Migration
         $table->text('description')->nullable();
         $table->decimal('price', 10, 2);
         $table->decimal('sale_price', 10, 2)->nullable();
-        $table->string('image')->nullable();
+        $table->text('image')->nullable();
         $table->boolean('is_active')->default(false);
         $table->boolean('is_featured')->default(false); // Home page pe dikhane k liye
         $table->timestamps();
