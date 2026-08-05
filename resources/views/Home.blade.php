@@ -1,5 +1,13 @@
 @extends('layouts.app')
-
+@section('meta')
+    <title>Shan-E-Libas | Premium Pakistani Clothes Online</title>
+    <meta name="description" content="Shan-E-Libas - Pakistan ka best online clothing store. Shop latest lawn suits, bridal wear, formal dresses aur handbags. Free shipping on orders over PKR 5000.">
+    <meta name="keywords" content="Pakistani clothes online, lawn suits, bridal wear, shalwar kameez, women fashion Pakistan, online shopping Pakistan">
+    <meta property="og:title" content="Shan-E-Libas | Premium Pakistani Clothes Online">
+    <meta property="og:description" content="Shop latest Pakistani fashion online. Free shipping on orders over PKR 5000.">
+    <meta property="og:url" content="https://shanelibas.store">
+    <meta property="og:image" content="https://shanelibas.store/images/og-image.jpg">
+@endsection
 @section('content')
     <style>
         .font-serif-luxury { font-family: 'Playfair Display', serif; }

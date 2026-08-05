@@ -1,5 +1,12 @@
 @extends('layouts.app')
-
+@section('meta')
+    <title>About Us | Shan-E-Libas</title>
+    <meta name="description" content="Learn about Shan-E-Libas - Pakistan's premium online clothing store. We offer the finest quality lawn suits, bridal wear, formal dresses and handbags with free shipping.">
+    <meta name="keywords" content="about Shan-E-Libas, Pakistani clothing brand, women fashion store Pakistan, premium clothes online">
+    <meta property="og:title" content="About Us | Shan-E-Libas">
+    <meta property="og:description" content="Learn about Shan-E-Libas - Pakistan's premium online clothing store.">
+    <meta property="og:url" content="https://shanelibas.store/about-us">
+@endsection
 @section('content')
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap');

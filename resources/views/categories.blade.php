@@ -1,5 +1,12 @@
 @extends('layouts.app')
-
+@section('meta')
+    <title>Shop By Categories | Shan-E-Libas</title>
+    <meta name="description" content="Browse all categories at Shan-E-Libas. Shop women clothes, lawn suits, bridal wear, handbags, cosmetics and more. Free shipping on orders over PKR 5000.">
+    <meta name="keywords" content="Pakistani clothes categories, women fashion categories, lawn suits, bridal wear, handbags Pakistan, cosmetics online">
+    <meta property="og:title" content="Shop By Categories | Shan-E-Libas">
+    <meta property="og:description" content="Browse all categories at Shan-E-Libas - Premium Pakistani clothing store.">
+    <meta property="og:url" content="https://shanelibas.store/categories">
+@endsection
 @section('content')
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap');

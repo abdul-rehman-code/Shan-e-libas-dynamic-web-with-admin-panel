@@ -166,3 +166,28 @@ function addToCart(productId) {
 }
 </script>
 @endsection
+
+
+@push('scripts')
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org/",
+    "@type": "Product",
+    "name": "{{ $product->name }}",
+    "description": "{{ strip_tags($product->description ?? 'Premium Pakistani clothing') }}",
+    "url": "{{ url()->current() }}",
+    "image": "{{ is_array($product->image) ? asset('storage/' . $product->image[0]) : asset('storage/' . $product->image) }}",
+    "brand": {
+        "@type": "Brand",
+        "name": "Shan-E-Libas"
+    },
+    "offers": {
+        "@type": "Offer",
+        "price": "{{ $product->price }}",
+        "priceCurrency": "PKR",
+        "availability": "https://schema.org/InStock",
+        "url": "{{ url()->current() }}"
+    }
+}
+</script>
+@endpush

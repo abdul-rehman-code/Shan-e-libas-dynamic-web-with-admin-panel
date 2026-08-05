@@ -4,6 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shan-E-Libas | Elegance In Every Thread</title>
+
+    <!-- SEO Meta Tags -->
+<meta name="description" content="Shan-E-Libas - Premium Pakistani clothing store. Shop latest women's fashion, lawn suits, formal wear and more. Free shipping on orders over PKR 5000.">
+<meta name="keywords" content="Pakistani clothes online, women fashion Pakistan, lawn suits, shalwar kameez, Pakistani dress, online shopping Pakistan, Shan-E-Libas">
+<meta name="author" content="Shan-E-Libas">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://shanelibas.store">
+
+<!-- Open Graph Tags -->
+<meta property="og:title" content="Shan-E-Libas | Elegance In Every Thread">
+<meta property="og:description" content="Premium Pakistani clothing store with latest collections. Free shipping on orders over PKR 5000.">
+<meta property="og:url" content="https://shanelibas.store">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://shanelibas.store/images/og-image.jpg">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Shan-E-Libas | Elegance In Every Thread">
+<meta name="twitter:description" content="Premium Pakistani clothing store with latest collections.">
+
+@hasSection('meta')
+    @yield('meta')
+@else
+    <meta name="description" content="Shan-E-Libas - Premium Pakistani clothing store.">
+@endif
+
+
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@200..800&display=swap" rel="stylesheet">
@@ -21,7 +49,7 @@
     </style>
 </head>
 <body class="bg-[#F5F5F7] text-[#333333] flex flex-col min-h-screen antialiased">
-<!-- Is container ka code check kr k is tarah set krlein -->
+
 <div id="toast-container" class="fixed top-24 right-5 z-[9999] space-y-3 pointer-events-none"></div>
 @include('partials.header')
 
@@ -31,6 +59,7 @@
 
     @include('partials.footer');
 
+   
 </body>
 </html><script>
 document.addEventListener('DOMContentLoaded', function () {
@@ -69,18 +98,14 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-// Toast Notification Create aur Animation ka Function
 function showToast(message) {
     const container = document.getElementById('toast-container');
     if (!container) return;
 
-    // Naya toast element create kren (Green/Sabz success theme)
     const toast = document.createElement('div');
     
-    // Classes main: bg-green-50, text-green-800, border-green-600 aur z-[9999] add kiya hy ta k sab se upar dikhe
     toast.className = "pointer-events-auto flex items-center gap-3 bg-green-50 border-l-4 border-green-600 text-green-800 px-4 py-3 rounded-r-lg shadow-xl transform translate-x-full opacity-0 transition-all duration-300 ease-out min-w-[300px] z-[9999]";
     
-    // Sabz rang ka Checkmark Icon aur Message text
     toast.innerHTML = `
         <svg class="w-5 h-5 text-green-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -90,12 +115,10 @@ function showToast(message) {
 
     container.appendChild(toast);
 
-    // Slide-in Animation
     setTimeout(() => {
         toast.classList.remove('translate-x-full', 'opacity-0');
     }, 10);
 
-    // 3 Seconds baad automatically slide-out aur remove krna
     setTimeout(() => {
         toast.classList.add('translate-x-full', 'opacity-0');
         setTimeout(() => {

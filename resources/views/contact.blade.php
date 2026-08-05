@@ -1,5 +1,12 @@
 @extends('layouts.app')
-
+@section('meta')
+    <title>Contact Us | Shan-E-Libas</title>
+    <meta name="description" content="Contact Shan-E-Libas for any queries about our premium Pakistani clothing. Call us at +92 309 0386227 or send us a message. We're here to help!">
+    <meta name="keywords" content="contact Shan-E-Libas, Pakistani clothes store contact, customer support Pakistan">
+    <meta property="og:title" content="Contact Us | Shan-E-Libas">
+    <meta property="og:description" content="Get in touch with Shan-E-Libas - Premium Pakistani clothing store.">
+    <meta property="og:url" content="https://shanelibas.store/contact-us">
+@endsection
 @section('content')
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap');
