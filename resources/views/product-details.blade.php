@@ -17,13 +17,31 @@
         <!-- Left Column: Product Image Gallery -->
         <div class="space-y-4">
             <!-- Main Big Display Image (Pehli Image) -->
-            <div class="bg-white p-2 rounded-2xl border border-gray-100 shadow-xs">
-                @if(is_array($product->image) && count($product->image) > 0)
-                    <img id="main-display-image" src="{{ asset('storage/' . $product->image[0]) }}" alt="{{ $product->name }}" class="w-full h-[320px] sm:h-[450px] md:h-[550px] object-cover rounded-xl transition duration-300">
-                @else
-                    <img id="main-display-image" src="{{ $product->image ? asset('storage/' . $product->image) : 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&q=80&w=500' }}" alt="{{ $product->name }}" class="w-full h-[320px] sm:h-[450px] md:h-[550px] object-cover rounded-xl transition duration-300">
+          <div class="bg-white p-2 rounded-2xl border border-gray-100 shadow-xs">
+    @php
+        $images = is_string($product->image) ? json_decode($product->image, true) : $product->image;
+        $images = is_array($images) ? $images : [$product->image];
+    @endphp
+    
+    <img id="main-display-image" 
+         src="{{ asset('storage/' . $images[0]) }}" 
+         alt="{{ $product->name }}" 
+         class="w-full h-[320px] sm:h-[450px] md:h-[550px] object-cover rounded-xl transition duration-300">
+</div>
+
+        
+                @if(count($images) > 1)
+                    <div class="grid grid-cols-5 gap-3">
+                        @foreach($images as $img_path)
+                            <div class="border border-gray-200 hover:border-[#6E472D] rounded-lg overflow-hidden cursor-pointer p-0.5 bg-white transition">
+                                <img src="{{ asset('storage/' . $img_path) }}" 
+                                    alt="{{ $product->name }}"
+                                    class="w-full h-20 object-cover rounded-md"
+                                    onclick="changeMainImage(this.src)">
+                            </div>
+                        @endforeach
+                    </div>
                 @endif
-            </div>
 
             <!-- Small Thumbnails Grid -->
             @if(is_array($product->image) && count($product->image) > 1)
