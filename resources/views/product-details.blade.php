@@ -11,25 +11,22 @@
 @endsection
 
 @section('content')
-<div class="container mx-auto px-4 py-12 max-w-6xl">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
-        
-       <div class="bg-white p-2 rounded-2xl border border-gray-100 shadow-xs">
+<div class="bg-white p-2 rounded-2xl border border-gray-100 shadow-xs">
     @php
-        $images = is_string($product->image) ? json_decode($product->image, true) : $product->image;
-        $images = is_array($images) ? $images : [$product->image];
+        $productImages = is_string($product->image) ? json_decode($product->image, true) : $product->image;
+        $productImages = is_array($productImages) ? $productImages : [$product->image];
     @endphp
     
     <img id="main-display-image" 
-         src="{{ asset('storage/' . $images[0]) }}" 
+         src="{{ asset('storage/' . $productImages[0]) }}" 
          alt="{{ $product->name }}" 
          class="w-full h-[320px] sm:h-[450px] md:h-[550px] object-cover rounded-xl transition duration-300">
 </div>
 
 {{-- Thumbnails --}}
-@if(count($images) > 1)
+@if(count($productImages) > 1)
     <div class="grid grid-cols-5 gap-3">
-        @foreach($images as $img_path)
+        @foreach($productImages as $img_path)
             <div class="border border-gray-200 hover:border-[#6E472D] rounded-lg overflow-hidden cursor-pointer p-0.5 bg-white transition">
                 <img src="{{ asset('storage/' . $img_path) }}" 
                      alt="{{ $product->name }}"
@@ -39,7 +36,6 @@
         @endforeach
     </div>
 @endif
-
         <!-- Right Column: Product Info -->
         <div class="space-y-6">
             <div>
