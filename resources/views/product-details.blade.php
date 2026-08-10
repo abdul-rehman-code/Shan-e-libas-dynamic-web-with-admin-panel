@@ -14,10 +14,7 @@
 <div class="container mx-auto px-4 py-12 max-w-6xl">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
         
-        <!-- Left Column: Product Image Gallery -->
-        <div class="space-y-4">
-            <!-- Main Big Display Image (Pehli Image) -->
-          <div class="bg-white p-2 rounded-2xl border border-gray-100 shadow-xs">
+       <div class="bg-white p-2 rounded-2xl border border-gray-100 shadow-xs">
     @php
         $images = is_string($product->image) ? json_decode($product->image, true) : $product->image;
         $images = is_array($images) ? $images : [$product->image];
@@ -29,34 +26,19 @@
          class="w-full h-[320px] sm:h-[450px] md:h-[550px] object-cover rounded-xl transition duration-300">
 </div>
 
-        
-                @if(count($images) > 1)
-                    <div class="grid grid-cols-5 gap-3">
-                        @foreach($images as $img_path)
-                            <div class="border border-gray-200 hover:border-[#6E472D] rounded-lg overflow-hidden cursor-pointer p-0.5 bg-white transition">
-                                <img src="{{ asset('storage/' . $img_path) }}" 
-                                    alt="{{ $product->name }}"
-                                    class="w-full h-20 object-cover rounded-md"
-                                    onclick="changeMainImage(this.src)">
-                            </div>
-                        @endforeach
-                    </div>
-                @endif
-
-            <!-- Small Thumbnails Grid -->
-            @if(is_array($product->image) && count($product->image) > 1)
-                <div class="grid grid-cols-5 gap-3">
-                    @foreach($product->image as $img_path)
-                        <div class="border border-gray-200 hover:border-[#6E472D] rounded-lg overflow-hidden cursor-pointer p-0.5 bg-white transition shadow-2xs">
-                            <img src="{{ asset('storage/' . $img_path) }}" 
-                                 alt="Gallery Photo" 
-                                 class="w-full h-20 object-cover rounded-md"
-                                 onclick="changeMainImage(this.src)">
-                        </div>
-                    @endforeach
-                </div>
-            @endif
-        </div>
+{{-- Thumbnails --}}
+@if(count($images) > 1)
+    <div class="grid grid-cols-5 gap-3">
+        @foreach($images as $img_path)
+            <div class="border border-gray-200 hover:border-[#6E472D] rounded-lg overflow-hidden cursor-pointer p-0.5 bg-white transition">
+                <img src="{{ asset('storage/' . $img_path) }}" 
+                     alt="{{ $product->name }}"
+                     class="w-full h-20 object-cover rounded-md"
+                     onclick="changeMainImage(this.src)">
+            </div>
+        @endforeach
+    </div>
+@endif
 
         <!-- Right Column: Product Info -->
         <div class="space-y-6">
