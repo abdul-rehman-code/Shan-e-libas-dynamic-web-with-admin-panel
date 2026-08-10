@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shan-E-Libas | Elegance In Every Thread</title>
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
 
     <!-- SEO Meta Tags -->
 <meta name="description" content="Shan-E-Libas - Premium Pakistani clothing store. Shop latest women's fashion, lawn suits, formal wear and more. Free shipping on orders over PKR 5000.">

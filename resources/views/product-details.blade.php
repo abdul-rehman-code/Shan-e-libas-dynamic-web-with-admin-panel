@@ -25,7 +25,7 @@
                 <img id="main-display-image" 
                      src="{{ asset('storage/' . $productImages[0]) }}" 
                      alt="{{ $product->name }}" 
-                     class="w-full h-[320px] sm:h-[450px] md:h-[550px] object-cover rounded-xl transition duration-300">
+                     class="w-full h-[360px] sm:h-[600px] md:h-[6000px] object-cover rounded-xl transition duration-300">
             </div>
 
             {{-- Thumbnails --}}
@@ -52,7 +52,7 @@
 
             <!-- Price -->
             <div class="border-b border-gray-100 pb-4">
-                <span class="text-sm text-gray-500 block">Starting From</span>
+                <span class="text-sm text-gray-500 block">Product Price </span>
                 <span class="text-2xl font-extrabold text-[#6E472D]">PKR {{ number_format($product->price) }}</span>
             </div>
 
