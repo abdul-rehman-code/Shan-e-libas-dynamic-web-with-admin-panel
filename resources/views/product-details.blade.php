@@ -11,31 +11,38 @@
 @endsection
 
 @section('content')
-<div class="bg-white p-2 rounded-2xl border border-gray-100 shadow-xs">
-    @php
-        $productImages = is_string($product->image) ? json_decode($product->image, true) : $product->image;
-        $productImages = is_array($productImages) ? $productImages : [$product->image];
-    @endphp
-    
-    <img id="main-display-image" 
-         src="{{ asset('storage/' . $productImages[0]) }}" 
-         alt="{{ $product->name }}" 
-         class="w-full h-[320px] sm:h-[450px] md:h-[550px] object-cover rounded-xl transition duration-300">
-</div>
-
-{{-- Thumbnails --}}
-@if(count($productImages) > 1)
-    <div class="grid grid-cols-5 gap-3">
-        @foreach($productImages as $img_path)
-            <div class="border border-gray-200 hover:border-[#6E472D] rounded-lg overflow-hidden cursor-pointer p-0.5 bg-white transition">
-                <img src="{{ asset('storage/' . $img_path) }}" 
-                     alt="{{ $product->name }}"
-                     class="w-full h-20 object-cover rounded-md"
-                     onclick="changeMainImage(this.src)">
+<div class="container mx-auto px-4 py-12 max-w-6xl">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+        
+        <!-- Left Column: Product Image Gallery -->
+        <div class="space-y-4">
+            <div class="bg-white p-2 rounded-2xl border border-gray-100 shadow-xs">
+                @php
+                    $productImages = is_string($product->image) ? json_decode($product->image, true) : $product->image;
+                    $productImages = is_array($productImages) ? $productImages : [$product->image];
+                @endphp
+                
+                <img id="main-display-image" 
+                     src="{{ asset('storage/' . $productImages[0]) }}" 
+                     alt="{{ $product->name }}" 
+                     class="w-full h-[320px] sm:h-[450px] md:h-[550px] object-cover rounded-xl transition duration-300">
             </div>
-        @endforeach
-    </div>
-@endif
+
+            {{-- Thumbnails --}}
+            @if(count($productImages) > 1)
+                <div class="grid grid-cols-5 gap-3">
+                    @foreach($productImages as $img_path)
+                        <div class="border border-gray-200 hover:border-[#6E472D] rounded-lg overflow-hidden cursor-pointer p-0.5 bg-white transition">
+                            <img src="{{ asset('storage/' . $img_path) }}" 
+                                 alt="{{ $product->name }}"
+                                 class="w-full h-20 object-cover rounded-md"
+                                 onclick="changeMainImage(this.src)">
+                        </div>
+                    @endforeach
+                </div>
+            @endif
+        </div>
+
         <!-- Right Column: Product Info -->
         <div class="space-y-6">
             <div>
@@ -57,7 +64,7 @@
                 </p>
             </div>
 
-            <!-- Features / Bullet Points (Luxury Aesthetic Look) -->
+            <!-- Features -->
             <ul class="text-xs space-y-2 text-gray-500 border-t border-b border-gray-100 py-4">
                 <li class="flex items-center gap-2">
                     <span class="w-1.5 h-1.5 bg-[#6E472D] rounded-full"></span> Premium Quality Fabric
@@ -95,20 +102,18 @@
         @include('partials.stylish_line')
     </div>
 
-    <!-- Responsive Grid: Mobile = 3 Columns (Top 6), PC = 4 Columns (All 8) -->
     <div class="grid grid-cols-3 md:grid-cols-4 gap-3 sm:gap-5">
         @foreach($relatedProducts as $index => $related)
             <a href="{{ route('product.show', $related->slug) }}" 
                class="group block bg-white rounded-xl border border-gray-100 p-2 sm:p-3 shadow-xs hover:shadow-md transition duration-300 {{ $index >= 6 ? 'max-md:hidden' : '' }}">
                 
-                <!-- Product Small Image with Safe Handling -->
                 <div class="aspect-square w-full overflow-hidden rounded-lg bg-gray-50 mb-2">
                     @php
                         $imgSrc = 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&q=80&w=300';
                         if (!empty($related->image)) {
-                            $images = is_string($related->image) ? json_decode($related->image, true) : $related->image;
-                            if (is_array($images) && count($images) > 0) {
-                                $imgSrc = asset('storage/' . $images[0]);
+                            $relatedImages = is_string($related->image) ? json_decode($related->image, true) : $related->image;
+                            if (is_array($relatedImages) && count($relatedImages) > 0) {
+                                $imgSrc = asset('storage/' . $relatedImages[0]);
                             } elseif (is_string($related->image)) {
                                 $imgSrc = asset('storage/' . $related->image);
                             }
@@ -117,7 +122,6 @@
                     <img src="{{ $imgSrc }}" alt="{{ $related->name }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                 </div>
 
-                <!-- Product Name Only -->
                 <h4 class="text-xs sm:text-sm font-semibold text-gray-800 text-center line-clamp-1 group-hover:text-[#8A151B] transition">
                     {{ $related->name }}
                 </h4>
@@ -125,22 +129,19 @@
         @endforeach
     </div>
 
-
-
-<!-- Show More Button -->
-<div class="text-center mt-8">
-    <a href="{{ route('products.all', ['category' => $product->category->slug ?? $product->category_id]) }}" 
-       class="inline-flex items-center gap-2 border border-[#6E472D] text-[#6E472D] hover:bg-[#6E472D] hover:text-white px-6 py-2.5 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider transition duration-300">
-        Show More
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-        </svg>
-    </a>
-</div>
+    <div class="text-center mt-8">
+        <a href="{{ route('products.all', ['category' => $product->category->slug ?? $product->category_id]) }}" 
+           class="inline-flex items-center gap-2 border border-[#6E472D] text-[#6E472D] hover:bg-[#6E472D] hover:text-white px-6 py-2.5 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider transition duration-300">
+            Show More
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+            </svg>
+        </a>
+    </div>
 
 </section>
 @endif
-<!-- Scripts for Cart and Gallery Image Swap -->
+
 <script>
 function changeMainImage(src) {
     const mainImg = document.getElementById('main-display-image');
