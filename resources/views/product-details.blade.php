@@ -1,5 +1,15 @@
 @extends('layouts.app')
 
+@section('meta')
+    <title>{{ $product->name }} | Shan-E-Libas</title>
+    <meta name="description" content="{{ Str::limit(strip_tags($product->description ?? 'Premium Pakistani clothing'), 155) }}">
+    <meta name="keywords" content="{{ $product->name }}, Pakistani clothes, lawn suits, Shan-E-Libas">
+    <meta property="og:title" content="{{ $product->name }} | Shan-E-Libas">
+    <meta property="og:description" content="{{ Str::limit(strip_tags($product->description ?? ''), 155) }}">
+    <meta property="og:image" content="{{ is_array($product->image) ? asset('storage/' . $product->image[0]) : asset('storage/' . $product->image) }}">
+    <meta property="og:url" content="{{ url()->current() }}">
+@endsection
+
 @section('content')
 <div class="container mx-auto px-4 py-12 max-w-6xl">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
@@ -166,28 +176,3 @@ function addToCart(productId) {
 }
 </script>
 @endsection
-
-
-@push('scripts')
-<script type="application/ld+json">
-{
-    "@context": "https://schema.org/",
-    "@type": "Product",
-    "name": "{{ $product->name }}",
-    "description": "{{ strip_tags($product->description ?? 'Premium Pakistani clothing') }}",
-    "url": "{{ url()->current() }}",
-    "image": "{{ is_array($product->image) ? asset('storage/' . $product->image[0]) : asset('storage/' . $product->image) }}",
-    "brand": {
-        "@type": "Brand",
-        "name": "Shan-E-Libas"
-    },
-    "offers": {
-        "@type": "Offer",
-        "price": "{{ $product->price }}",
-        "priceCurrency": "PKR",
-        "availability": "https://schema.org/InStock",
-        "url": "{{ url()->current() }}"
-    }
-}
-</script>
-@endpush
