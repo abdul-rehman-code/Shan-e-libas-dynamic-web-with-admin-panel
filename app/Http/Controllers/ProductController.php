@@ -10,10 +10,10 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $categories = Category::whereHas('products')
-         ->orderBy('order', 'asc')
-         ->get();
+        // Browse Categories section: sab categories dikhao
+        $categories = Category::all();
         
+        // Products section: sirf wahi categories jin mein products hon
         $categoriesWithProducts = Category::whereHas('products')
             ->orderBy('order', 'asc')
             ->with(['products' => function ($query) {
