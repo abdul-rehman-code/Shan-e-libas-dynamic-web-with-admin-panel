@@ -311,24 +311,19 @@
                         </a>
                     </div>
 
-                        <div class="flex flex-col flex-grow text-left p-4">
+                        <div class="flex flex-col flex-grow text-left p-3">
 
-                            <a href="{{ route('product.show', $prod->slug) }}" class="text-sm font-semibold text-gray-900 hover:text-[#6E472D] transition line-clamp-1" style="font-family: 'Cormorant Garamond', serif; font-size: 16px;">
+                            <a href="{{ route('product.show', $prod->slug) }}" class="font-semibold text-gray-900 hover:text-[#6E472D] transition line-clamp-1 mb-1" style="font-family: 'Cormorant Garamond', serif; font-size: 18px;">
                                 {{ $prod->name }}
                             </a>
 
-                            <div class="mt-2 flex flex-col mb-4">
-                                <span class="text-[10px] text-gray-400 uppercase tracking-wider font-medium">Starting from</span>
-                                <span class="text-sm font-bold text-[#6E472D] mt-0.5">PKR {{ number_format($prod->price) }}</span>
-                            </div>
+                            <span class="text-sm font-bold text-[#6E472D] mb-3">PKR {{ number_format($prod->price) }}</span>
 
                             <div class="mt-auto">
-                                <button data-id="{{ $prod->id }}" class="add-to-cart-btn w-full bg-[#6E472D] hover:bg-[#533521] text-white text-xs font-bold uppercase tracking-widest py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition duration-300 active:scale-98 shadow-xs cursor-pointer text-center">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
-                                </svg>
-                                <span>Add to Cart</span>
-                            </button>
+                                <button data-id="{{ $prod->id }}" class="add-to-cart-btn w-full bg-[#6E472D] hover:bg-[#533521] text-white text-xs font-bold uppercase tracking-widest py-2.5 px-4 rounded-lg flex items-center justify-center gap-2 transition duration-300 cursor-pointer">
+                                    <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                                    <span class="whitespace-nowrap">Add to Cart</span>
+                                </button>
                             </div>
 
                         </div>

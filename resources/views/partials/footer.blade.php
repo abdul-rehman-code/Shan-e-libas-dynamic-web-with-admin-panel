@@ -58,11 +58,11 @@
 
 <!-- Email Link -->
 <li class="flex items-start text-sm text-gray-500">
-    <a href="mailto:info@shanelibas.com" class="flex items-center space-x-2 hover:text-[#6E472D] transition duration-200">
+    <a href="mailto:info@shanelibas.store" class="flex items-center space-x-2 hover:text-[#6E472D] transition duration-200">
         <svg class="w-4 h-4 text-[#6E472D] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
         </svg>
-        <span class="break-all text-xs sm:text-sm">info@shanelibas.com</span>
+        <span class="break-all text-xs sm:text-sm">info@shanelibas.store</span>
     </a>
 </li>
                     <li class="flex items-start space-x-2 text-sm text-gray-500">

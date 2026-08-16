@@ -75,7 +75,7 @@
                         </div>
                         <div>
                             <h4 class="font-bold text-gray-900 mb-1" style="font-family: 'Cormorant Garamond', serif;">Email Us</h4>
-                            <p class="text-sm text-gray-500 leading-relaxed">support@shanelibas.com<br>info@shanelibas.com</p>
+                            <p class="text-sm text-gray-500 leading-relaxed">info@shanelibas.store</p>
                         </div>
                     </div>
                 </div>

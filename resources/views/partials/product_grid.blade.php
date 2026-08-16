@@ -20,16 +20,14 @@
                 </a>
             </div>
 
-            <div class="flex flex-col flex-grow p-4 text-center">
-                <a href="{{ url('product/' . $product->slug) }}" class="block mb-1">
-                    <h3 class="font-bold text-gray-900 text-lg sm:text-xl leading-tight group-hover:text-[#6E472D] transition-colors line-clamp-1" style="font-family: 'Cormorant Garamond', serif;">
+            <div class="flex flex-col flex-grow px-3 pt-3 pb-3 text-center">
+                <a href="{{ url('product/' . $product->slug) }}" class="block mb-2">
+                    <h3 class="font-bold text-gray-900 text-xl sm:text-2xl leading-tight group-hover:text-[#6E472D] transition-colors line-clamp-1" style="font-family: 'Cormorant Garamond', serif;">
                         {{ $product->name }}
                     </h3>
                 </a>
 
-                <p class="text-[10px] sm:text-[11px] uppercase tracking-wider text-gray-400 mb-1 mt-2">Starting from</p>
-
-                <div class="flex items-center justify-center gap-2 mb-4">
+                <div class="flex items-center justify-center gap-2 mb-3">
                     <span class="text-[#D4AF37] font-bold text-base sm:text-lg">Rs. {{ number_format($product->price) }}</span>
                     @if($product->old_price)
                         <span class="text-gray-400 line-through text-xs">Rs. {{ number_format($product->old_price) }}</span>
