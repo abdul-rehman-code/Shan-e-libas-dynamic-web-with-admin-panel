@@ -1,53 +1,51 @@
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+<div class="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 md:gap-8">
     @forelse($products as $product)
-        <div class="bg-white rounded-[2rem] p-5 shadow-sm border border-gray-50 hover:shadow-xl hover:border-gray-100 transition-all duration-500 hover:-translate-y-1 group flex flex-col">
+        <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-200 hover:shadow-xl hover:border-gray-300 transition-all duration-500 hover:-translate-y-1 group flex flex-col">
 
-            <div class="relative w-full h-72 rounded-[1.5rem] overflow-hidden mb-5 bg-gray-50">
+            <div class="relative w-full h-[260px] sm:h-[330px] bg-gray-50 border-b border-gray-100">
                 @if($product->old_price && $product->old_price > $product->price)
-                    <div class="absolute top-4 left-4 bg-red-500 text-white text-[10px] font-bold px-3 py-1 rounded-lg z-10 tracking-widest shadow-sm">SALE</div>
+                    <div class="absolute top-3 left-3 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded z-10 tracking-widest shadow-sm">SALE</div>
                 @endif
 
                 <a href="{{ url('product/' . $product->slug) }}" class="block w-full h-full">
                     @if(is_array($product->image) && count($product->image) > 0)
-                        {{-- Agar array hy to pehli image (index 0) check karein k http se start hoti hy ya local hy --}}
                         <img src="{{ Str::startsWith($product->image[0], 'http') ? $product->image[0] : asset('storage/' . $product->image[0]) }}"
                             alt="{{ $product->name }}"
-                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out">
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out">
                     @else
-                        {{-- Fallback agar data single string format main ho --}}
                         <img src="{{ $product->image ? (Str::startsWith($product->image, 'http') ? $product->image : asset('storage/' . $product->image)) : 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&q=80&w=500' }}"
                             alt="{{ $product->name }}"
-                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out">
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out">
                     @endif
                 </a>
             </div>
 
-            <div class="flex-grow text-center">
+            <div class="flex flex-col flex-grow p-4 text-center">
                 <a href="{{ url('product/' . $product->slug) }}" class="block mb-1">
-                    <h3 class="font-bold text-gray-900 text-xl leading-tight group-hover:text-[#6E472D] transition-colors line-clamp-1" style="font-family: 'Cormorant Garamond', serif;">
+                    <h3 class="font-bold text-gray-900 text-lg sm:text-xl leading-tight group-hover:text-[#6E472D] transition-colors line-clamp-1" style="font-family: 'Cormorant Garamond', serif;">
                         {{ $product->name }}
                     </h3>
                 </a>
 
-                <p class="text-[11px] uppercase tracking-wider text-gray-400 mb-1 mt-3">Starting from</p>
+                <p class="text-[10px] sm:text-[11px] uppercase tracking-wider text-gray-400 mb-1 mt-2">Starting from</p>
 
-                <div class="flex items-center justify-center gap-3 mb-5">
-                    <span class="text-[#D4AF37] font-bold text-lg">Rs. {{ number_format($product->price) }}</span>
+                <div class="flex items-center justify-center gap-2 mb-4">
+                    <span class="text-[#D4AF37] font-bold text-base sm:text-lg">Rs. {{ number_format($product->price) }}</span>
                     @if($product->old_price)
                         <span class="text-gray-400 line-through text-xs">Rs. {{ number_format($product->old_price) }}</span>
                     @endif
                 </div>
-            </div>
 
-            <div class="w-full mt-auto">
-                <button type="button" 
-                        onclick="allProductsAddToCart('{{ $product->id }}')" 
-                        class="w-full bg-[#6E472D] hover:bg-[#5A3924] text-white flex items-center justify-center gap-2 py-3 rounded-xl transition-all duration-300 text-sm font-medium shadow-md hover:shadow-lg cursor-pointer">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                    </svg>
-                    <span>Add to Cart</span>
-                </button>
+                <div class="w-full mt-auto">
+                    <button type="button" 
+                            onclick="allProductsAddToCart('{{ $product->id }}')" 
+                            class="w-full bg-[#6E472D] hover:bg-[#5A3924] text-white flex items-center justify-center gap-2 py-2.5 sm:py-3 rounded-xl transition-all duration-300 text-xs sm:text-sm font-medium shadow-md hover:shadow-lg cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                        <span>Add to Cart</span>
+                    </button>
+                </div>
             </div>
 
         </div>

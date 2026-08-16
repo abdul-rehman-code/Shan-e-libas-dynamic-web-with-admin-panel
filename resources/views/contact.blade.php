@@ -53,7 +53,7 @@
                         </div>
                         <div>
                             <h4 class="font-bold text-gray-900 mb-1" style="font-family: 'Cormorant Garamond', serif;">Our Boutique</h4>
-                            <p class="text-sm text-gray-500 leading-relaxed">Shahkot, Faisalabad, Pakistan</p>
+                            <p class="text-sm text-gray-500 leading-relaxed">Shahkot, Faisalabad, Pakistan<br>Thokar, Lahore, PK</p>
                         </div>
                     </div>
 

@@ -175,7 +175,7 @@
             <a href="{{ route('products.all') }}" class="flex items-center px-3 py-3 text-sm uppercase tracking-wider {{ Route::is('products.all') ? 'font-bold text-[#8A151B]' : 'font-semibold text-gray-700 hover:text-[#8A151B] hover:bg-gray-50' }} rounded-lg transition border-b border-gray-50" @click="open = false">All Products</a>
             <a href="/about-us" class="flex items-center px-3 py-3 text-sm uppercase tracking-wider {{ Request::is('about-us') ? 'font-bold text-[#8A151B]' : 'font-semibold text-gray-700 hover:text-[#8A151B] hover:bg-gray-50' }} rounded-lg transition border-b border-gray-50" @click="open = false">About Us</a>
             <a href="/contact-us" class="flex items-center px-3 py-3 text-sm uppercase tracking-wider {{ Request::is('contact-us') ? 'font-bold text-[#8A151B]' : 'font-semibold text-gray-700 hover:text-[#8A151B] hover:bg-gray-50' }} rounded-lg transition border-b border-gray-50" @click="open = false">Contact Us</a>
-            <a href="/customize-dress" class="flex items-center px-3 py-3 text-sm uppercase tracking-wider {{ Request::is('customize-dress') ? 'font-bold text-[#8A151B]' : 'font-semibold text-gray-700 hover:text-[#8A151B] hover:bg-gray-50' }} rounded-lg transition" @click="open = false">Customize Dress</a>
+            <!-- <a href="/customize-dress" class="flex items-center px-3 py-3 text-sm uppercase tracking-wider {{ Request::is('customize-dress') ? 'font-bold text-[#8A151B]' : 'font-semibold text-gray-700 hover:text-[#8A151B] hover:bg-gray-50' }} rounded-lg transition" @click="open = false">Customize Dress</a> -->
         </div>
     </div>
 </nav>

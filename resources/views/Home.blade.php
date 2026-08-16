@@ -109,7 +109,7 @@
     <section class="w-full relative overflow-hidden bg-[#FAF7F2]">
     <!-- Main Banner Image Wrapper -->
     <div class="relative w-full h-full">
-        <img src="{{ asset('banners/abc.png') }}" alt="Shan-E-Libas New Collection" class="w-full h-auto object-cover object-center min-h-[400px] md:min-h-0">
+        <img src="{{ asset('banners/abc.webp') }}" alt="Shan-E-Libas New Collection" class="w-full h-auto object-cover object-center min-h-[400px] md:min-h-0">
 
         <!-- Text & Button Overlay Container -->
         <div class="absolute inset-0 bg-black/5 md:bg-transparent flex items-center">
@@ -123,7 +123,7 @@
 
                     <!-- Main Heading -->
                     <h1 class="text-3xl md:text-4xl lg:text-5xl font-serif font-medium leading-tight text-[#111111]">
-                        EFFORTLESS STYLE,<br>
+                       PURE ELEGANCE,<br>
                         <span class="text-[#8C5226]">TIMELESS YOU</span>
                     </h1>
 
@@ -275,75 +275,82 @@
 </div>
 </section>
 
-    <!-- 4. New Arrivals Tabs and Grid Section -->
-<section class="anim-clip max-w-7xl mx-auto pt-4 pb-10 md:py-16 px-4 sm:px-6 lg:px-8">
-    <div class="text-center mb-6 md:mb-12">
-        <h2 class="text-xl sm:text-2xl md:text-4xl font-normal text-gray-900 tracking-[0.15em] sm:tracking-[0.2em] uppercase" style="font-family: 'Cormorant Garamond', serif;">
-            Popular Products
-        </h2>
-        <!-- <div class="w-16 h-[1px] bg-[#6E472D] mx-auto mt-4"></div> -->
-         <!-- Ornamental Divider -->
-        <div class="flex items-center justify-center mt-4">
-            <svg width="180" height="20" viewBox="0 0 180 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <line x1="0" y1="10" x2="65" y2="10" stroke="#8A151B" stroke-width="1" opacity="0.5"/>
-                <path d="M65 10 C 72 2, 78 2, 82 10 C 78 18, 72 18, 65 10 Z" stroke="#8A151B" stroke-width="1" fill="none" opacity="0.6"/>
-                <circle cx="90" cy="10" r="3" fill="#8A151B" opacity="0.6"/>
-                <path d="M98 10 C 102 2, 108 2, 115 10 C 108 18, 102 18, 98 10 Z" stroke="#8A151B" stroke-width="1" fill="none" opacity="0.6"/>
-                <line x1="115" y1="10" x2="180" y2="10" stroke="#8A151B" stroke-width="1" opacity="0.5"/>
-            </svg>
-        </div>
-    </div>
+    <!-- 4. Categories and Products Section -->
+<section class="anim-clip max-w-7xl mx-auto pt-4 md:pt-8 pb-4 md:pb-8 px-4 sm:px-6 lg:px-8">
+    @forelse($categoriesWithProducts as $category)
+        <div class="{{ $loop->last ? 'mb-4' : 'mb-10 md:mb-12' }} {{ $category->products->count() == 1 ? 'hidden md:block' : '' }}">
+            <div class="text-center mb-6">
+                <h2 class="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 tracking-wider uppercase" style="font-family: 'Cormorant Garamond', serif;">
+                    {{ $category->name }}
+                </h2>
+                <!-- Ornamental Divider -->
+                <div class="flex items-center justify-center mt-2 mb-4">
+                    <svg width="100" height="15" viewBox="0 0 100 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="0" y1="7" x2="35" y2="7" stroke="#8A151B" stroke-width="1" opacity="0.5"/>
+                        <circle cx="50" cy="7" r="2" fill="#8A151B" opacity="0.6"/>
+                        <line x1="65" y1="7" x2="100" y2="7" stroke="#8A151B" stroke-width="1" opacity="0.5"/>
+                    </svg>
+                </div>
+            </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 lg:gap-8">
-        @forelse($products as $prod)
-            <div class="group relative flex flex-col bg-white rounded-2xl overflow-hidden border border-gray-100 p-0 transition duration-500 hover:shadow-xl">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 lg:gap-8">
+                @foreach($category->products as $prod)
+                    <div class="group relative flex flex-col bg-white rounded-2xl overflow-hidden border border-gray-100 p-0 transition duration-500 hover:shadow-xl {{ ($loop->last && $loop->count % 2 !== 0) ? 'hidden md:flex' : '' }}">
 
-                <div class="relative w-full overflow-hidden bg-gray-50 rounded-t-2xl h-[500px] sm:h-[500px] md:h-96 lg:h-[440px]">
-                <a href="{{ url('product/' . $prod->slug) }}" class="block w-full h-full">
-                    @if(is_array($prod->image) && count($prod->image) > 0)
-                        <!-- {{-- Agar multiple images ka array hy to pehli image (thumbnail) dikhao --}} -->
-                        <img src="{{ asset('storage/' . $prod->image[0]) }}"
-                            alt="{{ $prod->name }}"
-                            class="w-full h-full object-cover group-hover:scale-105 transition duration-700 ease-out">
-                    @else
-                        <!-- {{-- Agar purana data hy ya simple string hy --}} -->
-                        <img src="{{ $prod->image ? asset('storage/' . $prod->image) : 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&q=80&w=500' }}"
-                            alt="{{ $prod->name }}"
-                            class="w-full h-full object-cover group-hover:scale-105 transition duration-700 ease-out">
-                    @endif
+                        <div class="relative w-full overflow-hidden bg-gray-50 rounded-t-2xl h-64 sm:h-[400px] md:h-96 lg:h-[440px]">
+                        <a href="{{ url('product/' . $prod->slug) }}" class="block w-full h-full">
+                            @if(is_array($prod->image) && count($prod->image) > 0)
+                                <img src="{{ asset('storage/' . $prod->image[0]) }}"
+                                    alt="{{ $prod->name }}"
+                                    class="w-full h-full object-cover group-hover:scale-105 transition duration-700 ease-out">
+                            @else
+                                <img src="{{ $prod->image ? asset('storage/' . $prod->image) : 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&q=80&w=500' }}"
+                                    alt="{{ $prod->name }}"
+                                    class="w-full h-full object-cover group-hover:scale-105 transition duration-700 ease-out">
+                            @endif
+                        </a>
+                    </div>
+
+                        <div class="flex flex-col flex-grow text-left p-4">
+
+                            <a href="{{ route('product.show', $prod->slug) }}" class="text-sm font-semibold text-gray-900 hover:text-[#6E472D] transition line-clamp-1" style="font-family: 'Cormorant Garamond', serif; font-size: 16px;">
+                                {{ $prod->name }}
+                            </a>
+
+                            <div class="mt-2 flex flex-col mb-4">
+                                <span class="text-[10px] text-gray-400 uppercase tracking-wider font-medium">Starting from</span>
+                                <span class="text-sm font-bold text-[#6E472D] mt-0.5">PKR {{ number_format($prod->price) }}</span>
+                            </div>
+
+                            <div class="mt-auto">
+                                <button data-id="{{ $prod->id }}" class="add-to-cart-btn w-full bg-[#6E472D] hover:bg-[#533521] text-white text-xs font-bold uppercase tracking-widest py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition duration-300 active:scale-98 shadow-xs cursor-pointer text-center">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                                </svg>
+                                <span>Add to Cart</span>
+                            </button>
+                            </div>
+
+                        </div>
+
+                    </div>
+                @endforeach
+            </div>
+            
+            <div class="text-center mt-6">
+                <a href="{{ url('all-products/' . $category->id) }}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-transparent border border-[#8C5226] text-[#8C5226] hover:bg-[#8C5226] hover:text-white font-medium text-xs tracking-wider uppercase rounded-full transition-all duration-300 group">
+                    View More
+                    <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                    </svg>
                 </a>
             </div>
-
-                <div class="flex flex-col flex-grow text-left p-4">
-
-                    <a href="{{ route('product.show', $prod->slug) }}" class="text-sm font-semibold text-gray-900 hover:text-[#6E472D] transition line-clamp-1" style="font-family: 'Cormorant Garamond', serif; font-size: 16px;">
-                        {{ $prod->name }}
-                    </a>
-
-                    <div class="mt-2 flex flex-col mb-4">
-                        <span class="text-[10px] text-gray-400 uppercase tracking-wider font-medium">Starting from</span>
-                        <span class="text-sm font-bold text-[#6E472D] mt-0.5">PKR {{ number_format($prod->price) }}</span>
-                    </div>
-
-                    <div class="mt-auto">
-                        <button data-id="{{ $prod->id }}" class="add-to-cart-btn w-full bg-[#6E472D] hover:bg-[#533521] text-white text-xs font-bold uppercase tracking-widest py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition duration-300 active:scale-98 shadow-xs cursor-pointer text-center">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
-                        </svg>
-                        <span>Add to Cart</span>
-                    </button>
-                    </div>
-
-                </div>
-
-            </div>
-        @empty
-            <div class="col-span-full text-center py-12 text-gray-500">
-                No products found in database.
-            </div>
-            </div>
-        @endforelse
-    </div>
+        </div>
+    @empty
+        <div class="col-span-full text-center py-12 text-gray-500">
+            No products found.
+        </div>
+    @endforelse
 </section>
 <div class="max-w-7xl mx-auto px-4 py-4 sm:p-6">
     <div class="relative overflow-hidden rounded-3xl bg-[#F5EFE6] shadow-md border border-gray-100/50 flex flex-col md:flex-row items-stretch">

@@ -46,18 +46,25 @@
                     Contact Us
                 </h4>
                 <ul class="space-y-3">
-                    <li class="flex items-start space-x-2 text-sm text-gray-500">
-                        <svg class="w-4 h-4 text-[#6E472D] mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
-                        </svg>
-                        <span>03090386227</span>
-                    </li>
-                    <li class="flex items-start space-x-2 text-sm text-gray-500">
-                        <svg class="w-4 h-4 text-[#6E472D] mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                        </svg>
-                        <span class="break-all text-xs sm:text-sm">info@shanelibas.com</span>
-                    </li>
+                   <!-- Phone Number Link -->
+<li class="flex items-start text-sm text-gray-500">
+    <a href="tel:03090386227" class="flex items-center space-x-2 hover:text-[#6E472D] transition duration-200">
+        <svg class="w-4 h-4 text-[#6E472D] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+        </svg>
+        <span>03090386227</span>
+    </a>
+</li>
+
+<!-- Email Link -->
+<li class="flex items-start text-sm text-gray-500">
+    <a href="mailto:info@shanelibas.com" class="flex items-center space-x-2 hover:text-[#6E472D] transition duration-200">
+        <svg class="w-4 h-4 text-[#6E472D] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+        </svg>
+        <span class="break-all text-xs sm:text-sm">info@shanelibas.com</span>
+    </a>
+</li>
                     <li class="flex items-start space-x-2 text-sm text-gray-500">
                         <svg class="w-4 h-4 text-[#6E472D] mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>

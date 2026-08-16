@@ -8,14 +8,17 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-   public function index()
-{
-    $products = Product::latest()->take(8)->get();
-    
-    $categories = Category::all(); 
+    public function index()
+    {
+        $categories = Category::whereHas('products')->get();
+        
+        $categoriesWithProducts = Category::whereHas('products')
+            ->with(['products' => function ($query) {
+                $query->latest()->take(8);
+            }])->get();
 
-    return view('Home', compact('products', 'categories'));
-}
+        return view('Home', compact('categories', 'categoriesWithProducts'));
+    }
 
     public function allCategories()
     {
