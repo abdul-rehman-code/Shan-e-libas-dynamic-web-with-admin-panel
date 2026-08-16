@@ -10,9 +10,12 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $categories = Category::whereHas('products')->get();
+        $categories = Category::whereHas('products')
+         ->orderBy('order', 'asc')
+         ->get();
         
         $categoriesWithProducts = Category::whereHas('products')
+            ->orderBy('order', 'asc')
             ->with(['products' => function ($query) {
                 $query->latest()->take(8);
             }])->get();
