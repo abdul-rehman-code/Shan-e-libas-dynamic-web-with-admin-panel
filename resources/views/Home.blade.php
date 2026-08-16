@@ -313,7 +313,7 @@
 
                         <div class="flex flex-col flex-grow text-left p-3">
 
-                            <a href="{{ route('product.show', $prod->slug) }}" class="font-semibold text-gray-900 hover:text-[#6E472D] transition line-clamp-1 min-h-[1.5rem] mb-1 block" style="font-family: 'Cormorant Garamond', serif; font-size: clamp(14px, 3.5vw, 18px);">
+                            <a href="{{ route('product.show', $prod->slug) }}" class="font-semibold text-gray-900 hover:text-[#6E472D] transition truncate mb-1 block text-sm sm:text-base" style="font-family: 'Cormorant Garamond', serif;">
                                 {{ $prod->name }}
                             </a>
 
