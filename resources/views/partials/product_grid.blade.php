@@ -22,7 +22,7 @@
 
             <div class="flex flex-col flex-grow px-3 pt-3 pb-3 text-center">
                 <a href="{{ url('product/' . $product->slug) }}" class="block mb-2">
-                    <h3 class="font-bold text-gray-900 text-xl sm:text-2xl leading-tight group-hover:text-[#6E472D] transition-colors line-clamp-1" style="font-family: 'Cormorant Garamond', serif;">
+                    <h3 class="font-bold text-gray-900 text-base sm:text-2xl leading-tight group-hover:text-[#6E472D] transition-colors line-clamp-1 min-h-[1.5rem] sm:min-h-[2rem]" style="font-family: 'Cormorant Garamond', serif;">
                         {{ $product->name }}
                     </h3>
                 </a>
