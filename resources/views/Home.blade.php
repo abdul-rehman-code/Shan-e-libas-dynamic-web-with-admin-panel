@@ -238,13 +238,13 @@
     </section>
 
     <!-- 3. Browse Categories Circle Row -->
-  <section class="anim-clip max-w-7xl mx-auto pt-8 pb-4 px-4 sm:px-6 lg:px-8">
+  <section class="anim-clip max-w-7xl mx-auto pt-4 pb-4 px-4 sm:px-6 lg:px-8">
     <div class="text-center mb-6 animate-ltr">
         <h2 class="text-xl sm:text-2xl md:text-4xl font-normal text-gray-900 tracking-[0.15em] sm:tracking-[0.2em] uppercase" style="font-family: 'Cormorant Garamond', serif;">
             Browse Categories
         </h2>
         <!-- Ornamental Divider -->
-    <div class="flex items-center justify-center mt-4 mb-10">
+    <div class="flex items-center justify-center mt-2 mb-5">
         <svg width="180" height="20" viewBox="0 0 180 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <line x1="0" y1="10" x2="65" y2="10" stroke="#8A151B" stroke-width="1" opacity="0.5"/>
             <path d="M65 10 C 72 2, 78 2, 82 10 C 78 18, 72 18, 65 10 Z" stroke="#8A151B" stroke-width="1" fill="none" opacity="0.6"/>
@@ -255,17 +255,53 @@
     </div>
     </div>
 
-<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-x-8 gap-y-6 sm:gap-6 md:gap-8">
+<div class="grid grid-cols-3 md:grid-cols-6 gap-x-2 gap-y-8 sm:gap-6 md:gap-8">
     @forelse($categories as $cat)
-        <a href="{{ url('all-products/' . $cat->id) }}" class="animate-ltr group flex flex-col items-center text-center">
-            <div class="cat-circle w-full aspect-square sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full overflow-hidden border border-gray-100 shadow-sm relative transition duration-500 transform hover:scale-105 hover:shadow-md">
-                <img src="{{ $cat->image ? asset('storage/' . $cat->image) : 'https://images.unsplash.com/photo-1509695507497-903c140c43b0?auto=format&fit=crop&q=80&w=400' }}"
-                     alt="{{ $cat->name }}"
-                     class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+        <a href="{{ url('all-products/' . $cat->id) }}" class="animate-rtl group flex flex-col items-center text-center w-full relative">
+            <!-- Wreath + Circle Container -->
+            <div class="relative w-full aspect-square max-w-[100px] sm:max-w-[140px] md:max-w-[160px] mx-auto flex items-center justify-center">
+                
+                <!-- SVG Laurel Wreath -->
+                <svg class="absolute inset-0 w-full h-full text-[#C29D8A] pointer-events-none scale-[1.3] opacity-80" viewBox="0 0 100 100" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Left Branch -->
+                    <path d="M50 90 C15 90 0 60 8 30" stroke="currentColor" stroke-width="0.8" fill="none"/>
+                    <path d="M8 30 C11 25 18 28 14 34 Z"/>
+                    <path d="M10 42 C14 36 21 39 16 45 Z"/>
+                    <path d="M13 54 C18 48 25 51 20 57 Z"/>
+                    <path d="M19 66 C24 60 31 63 26 69 Z"/>
+                    <path d="M28 77 C33 71 40 74 35 80 Z"/>
+                    <!-- Right Branch -->
+                    <path d="M50 90 C85 90 100 60 92 30" stroke="currentColor" stroke-width="0.8" fill="none"/>
+                    <path d="M92 30 C89 25 82 28 86 34 Z"/>
+                    <path d="M90 42 C86 36 79 39 84 45 Z"/>
+                    <path d="M87 54 C82 48 75 51 80 57 Z"/>
+                    <path d="M81 66 C76 60 69 63 74 69 Z"/>
+                    <path d="M72 77 C67 71 60 74 65 80 Z"/>
+                </svg>
+
+                <!-- Circle Image -->
+                <div class="cat-circle w-[82%] h-[82%] rounded-full overflow-hidden border-2 border-[#EADAD2] p-[2px] sm:p-[3px] shadow-sm relative transition duration-500 transform group-hover:scale-105 group-hover:shadow-md bg-white z-10">
+                    <div class="w-full h-full rounded-full overflow-hidden">
+                        <img src="{{ $cat->image ? asset('storage/' . $cat->image) : 'https://images.unsplash.com/photo-1509695507497-903c140c43b0?auto=format&fit=crop&q=80&w=400' }}"
+                             alt="{{ $cat->name }}"
+                             class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                    </div>
+                </div>
             </div>
-            <span class="mt-2 sm:mt-3 font-bold text-[10px] sm:text-xs uppercase tracking-widest text-gray-800 group-hover:text-[#6E472D] transition">
-                {{ $cat->name }}
-            </span>
+
+            <!-- Title Pill -->
+            <div class="mt-[-8px] sm:mt-[-12px] relative z-20 w-[95%] sm:w-[85%] bg-[#FAF7F2] border border-[#C29D8A] rounded-[20px] py-1 sm:py-1.5 px-1 sm:px-2 flex items-center justify-center shadow-[0_2px_4px_rgba(0,0,0,0.02)]">
+                <span class="font-bold text-[7px] sm:text-[9px] md:text-[10px] uppercase tracking-widest text-[#1e344e] group-hover:text-[#C29D8A] transition truncate">
+                    {{ $cat->name }}
+                </span>
+            </div>
+
+            <!-- Diamond Icon -->
+            <div class="mt-1 sm:mt-2 text-[#C29D8A]">
+                <svg class="w-2 h-2 sm:w-2.5 sm:h-2.5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 0 L15 9 L24 12 L15 15 L12 24 L9 15 L0 12 L9 9 Z" />
+                </svg>
+            </div>
         </a>
     @empty
         <div class="col-span-full text-center py-6 text-gray-500 text-sm">
@@ -276,7 +312,7 @@
 </section>
 
     <!-- 4. Categories and Products Section -->
-<section class="anim-clip max-w-7xl mx-auto pt-4 md:pt-8 pb-4 md:pb-8 px-4 sm:px-6 lg:px-8">
+<section class="anim-clip max-w-7xl mx-auto -pt-2 md:pt-8 pb-4 md:pb-8 px-4 sm:px-6 lg:px-8">
     @forelse($categoriesWithProducts as $category)
         <div class="{{ $loop->last ? 'mb-4' : 'mb-10 md:mb-12' }}">
             <div class="text-center mb-6">
