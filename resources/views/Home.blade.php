@@ -259,10 +259,10 @@
     @forelse($categories as $cat)
         <a href="{{ url('all-products/' . $cat->id) }}" class="animate-rtl group flex flex-col items-center text-center w-full relative">
             <!-- Wreath + Circle Container -->
-            <div class="relative w-full aspect-square max-w-[100px] sm:max-w-[140px] md:max-w-[160px] mx-auto flex items-center justify-center">
+            <div class="relative w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 mx-auto flex items-center justify-center">
                 
                 <!-- SVG Laurel Wreath -->
-                <svg class="absolute inset-0 w-full h-full text-[#C29D8A] pointer-events-none scale-[1.3] opacity-80" viewBox="0 0 100 100" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <svg class="absolute inset-0 w-full h-full text-[#C29D8A] pointer-events-none scale-125 opacity-80 transform" viewBox="0 0 100 100" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <!-- Left Branch -->
                     <path d="M50 90 C15 90 0 60 8 30" stroke="currentColor" stroke-width="0.8" fill="none"/>
                     <path d="M8 30 C11 25 18 28 14 34 Z"/>
@@ -280,8 +280,8 @@
                 </svg>
 
                 <!-- Circle Image -->
-                <div class="cat-circle w-[82%] h-[82%] rounded-full overflow-hidden border-2 border-[#EADAD2] p-[2px] sm:p-[3px] shadow-sm relative transition duration-500 transform group-hover:scale-105 group-hover:shadow-md bg-white z-10">
-                    <div class="w-full h-full rounded-full overflow-hidden">
+                <div class="cat-circle w-4/5 h-4/5 rounded-full overflow-hidden border-2 border-[#EADAD2] p-0.5 sm:p-1 shadow-sm relative transition duration-500 transform group-hover:scale-105 group-hover:shadow-md bg-white z-10 flex items-center justify-center">
+                    <div class="w-full h-full rounded-full overflow-hidden flex items-center justify-center">
                         <img src="{{ $cat->image ? asset('storage/' . $cat->image) : 'https://images.unsplash.com/photo-1509695507497-903c140c43b0?auto=format&fit=crop&q=80&w=400' }}"
                              alt="{{ $cat->name }}"
                              class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
@@ -290,15 +290,15 @@
             </div>
 
             <!-- Title Pill -->
-            <div class="mt-[-8px] sm:mt-[-12px] relative z-20 w-[95%] sm:w-[85%] bg-[#FAF7F2] border border-[#C29D8A] rounded-[20px] py-1 sm:py-1.5 px-1 sm:px-2 flex items-center justify-center shadow-[0_2px_4px_rgba(0,0,0,0.02)]">
-                <span class="font-bold text-[7px] sm:text-[9px] md:text-[10px] uppercase tracking-widest text-[#1e344e] group-hover:text-[#C29D8A] transition truncate">
+            <div class="-mt-2 sm:-mt-3 relative z-20 w-11/12 sm:w-5/6 bg-[#FAF7F2] border border-[#C29D8A] rounded-full py-1 sm:py-1.5 px-1 sm:px-2 flex items-center justify-center shadow-sm">
+                <span class="font-bold text-[9px] md:text-[10px] uppercase tracking-widest text-[#1e344e] group-hover:text-[#C29D8A] transition truncate">
                     {{ $cat->name }}
                 </span>
             </div>
 
             <!-- Diamond Icon -->
             <div class="mt-1 sm:mt-2 text-[#C29D8A]">
-                <svg class="w-2 h-2 sm:w-2.5 sm:h-2.5" fill="currentColor" viewBox="0 0 24 24">
+                <svg class="w-2 h-2 sm:w-3 sm:h-3" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M12 0 L15 9 L24 12 L15 15 L12 24 L9 15 L0 12 L9 9 Z" />
                 </svg>
             </div>
