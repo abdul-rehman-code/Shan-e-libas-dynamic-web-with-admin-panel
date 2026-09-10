@@ -26,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
             // Categories ko 24 ghante ke liye Cache mein save karein
             // Direct boot method mein share karne se cache query pure request mein sirf 1 BAAR chalegi
             $categories = Cache::remember('global_categories', 86400, function () {
-                return Category::withCount('products')->get();
+                return Category::withCount('products')->orderBy('order', 'asc')->get();
             });
 
             View::share('categories', $categories);

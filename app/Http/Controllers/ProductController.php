@@ -11,7 +11,7 @@ class ProductController extends Controller
     public function index()
     {
         // Browse Categories section: sab categories dikhao
-        $categories = Category::all();
+        $categories = Category::orderBy('order', 'asc')->get();
         
         // Products section: sirf wahi categories jin mein products hon
         $categoriesWithProducts = Category::whereHas('products')

@@ -83,6 +83,7 @@ class CategoryResource extends Resource
             TextColumn::make('created_at')->dateTime()->sortable(),
         ])
         ->defaultSort('order', 'asc')
+        ->reorderable('order')
         ->filters([
             //
         ])

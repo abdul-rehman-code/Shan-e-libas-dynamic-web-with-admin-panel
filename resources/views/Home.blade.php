@@ -278,7 +278,7 @@
     <!-- 4. Categories and Products Section -->
 <section class="anim-clip max-w-7xl mx-auto pt-4 md:pt-8 pb-4 md:pb-8 px-4 sm:px-6 lg:px-8">
     @forelse($categoriesWithProducts as $category)
-        <div class="{{ $loop->last ? 'mb-4' : 'mb-10 md:mb-12' }} {{ $category->products->count() == 1 ? 'hidden md:block' : '' }}">
+        <div class="{{ $loop->last ? 'mb-4' : 'mb-10 md:mb-12' }}">
             <div class="text-center mb-6">
                 <h2 class="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 tracking-wider uppercase" style="font-family: 'Cormorant Garamond', serif;">
                     {{ $category->name }}
@@ -295,7 +295,7 @@
 
             <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 lg:gap-8">
                 @foreach($category->products as $prod)
-                    <div class="group relative flex flex-col bg-white rounded-2xl overflow-hidden border border-gray-100 p-0 transition duration-500 hover:shadow-xl {{ ($loop->last && $loop->count % 2 !== 0) ? 'hidden md:flex' : '' }}">
+                    <div class="group relative flex flex-col bg-white rounded-2xl overflow-hidden border border-gray-100 p-0 transition duration-500 hover:shadow-xl">
 
                         <div class="relative w-full overflow-hidden bg-gray-50 rounded-t-2xl h-64 sm:h-[400px] md:h-96 lg:h-[440px]">
                         <a href="{{ url('product/' . $prod->slug) }}" class="block w-full h-full">
