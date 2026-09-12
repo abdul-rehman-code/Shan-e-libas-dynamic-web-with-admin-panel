@@ -8,6 +8,7 @@ use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
@@ -33,9 +34,9 @@ class ProductResource extends Resource
         return $form
             ->schema([
                 // Category Dropdown Relationship
-                Select::make('category_id')
-                    ->relationship('category', 'name')
-                    ->searchable()
+                Select::make('categories')
+                    ->multiple()
+                    ->relationship('categories', 'name')
                     ->preload()
                     ->required(),
 
@@ -64,6 +65,7 @@ class ProductResource extends Resource
                 // Tags Dropdown
                 Select::make('tag')
                     ->label('Product Tag / Event')
+                    ->multiple()
                     ->options([
                         'bridal' => 'Bridal',
                         'formal' => 'Formal',
@@ -71,7 +73,7 @@ class ProductResource extends Resource
                         'handbags' => 'Handbags',
                     ])
                     ->searchable()
-                    ->placeholder('Select a tag for filtering'),
+                    ->placeholder('Select tags for filtering'),
 
                 Toggle::make('is_active')
                     ->label('Active Product (Home Page)')
@@ -105,7 +107,7 @@ class ProductResource extends Resource
             ->columns([
                 ImageColumn::make('image'),
                 TextColumn::make('name')->searchable()->sortable(),
-                TextColumn::make('category.name')->sortable(),
+                TextColumn::make('categories.name'),
                 TextColumn::make('price')->money('PKR')->sortable(),
                 IconColumn::make('is_featured')->boolean(),
                 IconColumn::make('is_active')->boolean(),

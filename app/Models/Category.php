@@ -9,8 +9,8 @@ class Category extends Model
 {
     protected $guarded = [];
 
-    public function products(): HasMany
+    public function products(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->hasMany(Product::class);
+        return $this->belongsToMany(Product::class);
     }
 }

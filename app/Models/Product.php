@@ -12,11 +12,12 @@ class Product extends Model
     {
         return [
             'image' => 'array',
+            'tag' => 'array',
         ];
     }
-    public function category(): BelongsTo
+    public function categories(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsToMany(Category::class);
     }
 
 }

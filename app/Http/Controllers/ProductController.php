@@ -35,11 +35,13 @@ class ProductController extends Controller
         // From route parameter or request input
         $categoryId = $request->input('category_id', $category_id);
         if ($categoryId) {
-            $query->where('category_id', $categoryId);
+            $query->whereHas('categories', function($q) use ($categoryId) {
+                $q->where('categories.id', $categoryId);
+            });
         }
 
         if ($request->filled('tag')) {
-            $query->where('tag', $request->input('tag'));
+            $query->whereJsonContains('tag', $request->input('tag'));
         }
 
         // Search Logic Updated (Name aur Description dono ke liye)
@@ -119,9 +121,13 @@ class ProductController extends Controller
 
     public function show($slug)
     {
-        $product = Product::with('category')->where('slug', $slug)->firstOrFail();
+        $product = Product::with('categories')->where('slug', $slug)->firstOrFail();
 
-        $relatedProducts = Product::where('category_id', $product->category_id)
+        $categoryIds = $product->categories->pluck('id');
+
+        $relatedProducts = Product::whereHas('categories', function($q) use ($categoryIds) {
+            $q->whereIn('categories.id', $categoryIds);
+        })
             ->where('id', '!=', $product->id)
             ->take(8)
             ->get();
