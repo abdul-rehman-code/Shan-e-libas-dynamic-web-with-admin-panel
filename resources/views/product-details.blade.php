@@ -25,7 +25,7 @@
                 <img id="main-display-image" 
                      src="{{ asset('storage/' . $productImages[0]) }}" 
                      alt="{{ $product->name }}" 
-                     class="w-full h-[360px] sm:h-[600px] md:h-[6000px] object-cover rounded-xl transition duration-300">
+                     class="w-full h-[360px] sm:h-[600px] md:h-[600px] object-cover rounded-xl transition duration-300">
             </div>
 
             {{-- Thumbnails --}}
