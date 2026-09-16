@@ -13,14 +13,10 @@ class ProductController extends Controller
         // Browse Categories section: sab categories dikhao
         $categories = Category::orderBy('order', 'asc')->get();
         
-        // Products section: sirf wahi categories jin mein products hon
-        $categoriesWithProducts = Category::whereHas('products')
-            ->orderBy('order', 'asc')
-            ->with(['products' => function ($query) {
-                $query->latest()->take(8);
-            }])->get();
+        // Products section: sirf latest 20 products dikhao
+        $latestProducts = Product::latest()->take(20)->get();
 
-        return view('Home', compact('categories', 'categoriesWithProducts'));
+        return view('Home', compact('categories', 'latestProducts'));
     }
 
     public function allCategories()

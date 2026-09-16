@@ -275,41 +275,41 @@
 </div>
 </section>
 
-    <!-- 4. Categories and Products Section -->
+    <!-- 4. Popular Products Section -->
 <section class="anim-clip max-w-7xl mx-auto -pt-2 md:pt-8 pb-4 md:pb-8 px-4 sm:px-6 lg:px-8">
-    @forelse($categoriesWithProducts as $category)
-        <div class="{{ $loop->last ? 'mb-4' : 'mb-10 md:mb-12' }}">
-            <div class="text-center mb-6">
-                <h2 class="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 tracking-wider uppercase" style="font-family: 'Cormorant Garamond', serif;">
-                    {{ $category->name }}
-                </h2>
-                <!-- Ornamental Divider -->
-                <div class="flex items-center justify-center mt-2 mb-4">
-                    <svg width="100" height="15" viewBox="0 0 100 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <line x1="0" y1="7" x2="35" y2="7" stroke="#8A151B" stroke-width="1" opacity="0.5"/>
-                        <circle cx="50" cy="7" r="2" fill="#8A151B" opacity="0.6"/>
-                        <line x1="65" y1="7" x2="100" y2="7" stroke="#8A151B" stroke-width="1" opacity="0.5"/>
-                    </svg>
-                </div>
+    <div class="mb-4">
+        <div class="text-center mb-6">
+            <h2 class="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 tracking-wider uppercase" style="font-family: 'Cormorant Garamond', serif;">
+                Popular Products
+            </h2>
+            <!-- Ornamental Divider -->
+            <div class="flex items-center justify-center mt-2 mb-4">
+                <svg width="100" height="15" viewBox="0 0 100 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="0" y1="7" x2="35" y2="7" stroke="#8A151B" stroke-width="1" opacity="0.5"/>
+                    <circle cx="50" cy="7" r="2" fill="#8A151B" opacity="0.6"/>
+                    <line x1="65" y1="7" x2="100" y2="7" stroke="#8A151B" stroke-width="1" opacity="0.5"/>
+                </svg>
             </div>
+        </div>
 
+        @if($latestProducts->isNotEmpty())
             <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 lg:gap-8">
-                @foreach($category->products as $prod)
+                @foreach($latestProducts as $prod)
                     <div class="group relative flex flex-col bg-white rounded-2xl overflow-hidden border border-gray-100 p-0 transition duration-500 hover:shadow-xl">
 
                         <div class="relative w-full overflow-hidden bg-gray-50 rounded-t-2xl h-64 sm:h-[400px] md:h-96 lg:h-[440px]">
-                        <a href="{{ url('product/' . $prod->slug) }}" class="block w-full h-full">
-                            @if(is_array($prod->image) && count($prod->image) > 0)
-                                <img src="{{ asset('storage/' . $prod->image[0]) }}"
-                                    alt="{{ $prod->name }}"
-                                    class="w-full h-full object-cover group-hover:scale-105 transition duration-700 ease-out">
-                            @else
-                                <img src="{{ $prod->image ? asset('storage/' . $prod->image) : 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&q=80&w=500' }}"
-                                    alt="{{ $prod->name }}"
-                                    class="w-full h-full object-cover group-hover:scale-105 transition duration-700 ease-out">
-                            @endif
-                        </a>
-                    </div>
+                            <a href="{{ url('product/' . $prod->slug) }}" class="block w-full h-full">
+                                @if(is_array($prod->image) && count($prod->image) > 0)
+                                    <img src="{{ asset('storage/' . $prod->image[0]) }}"
+                                        alt="{{ $prod->name }}"
+                                        class="w-full h-full object-cover group-hover:scale-105 transition duration-700 ease-out">
+                                @else
+                                    <img src="{{ $prod->image ? asset('storage/' . $prod->image) : 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&q=80&w=500' }}"
+                                        alt="{{ $prod->name }}"
+                                        class="w-full h-full object-cover group-hover:scale-105 transition duration-700 ease-out">
+                                @endif
+                            </a>
+                        </div>
 
                         <div class="flex flex-col flex-grow text-left p-3">
 
@@ -333,19 +333,19 @@
             </div>
             
             <div class="text-center mt-6">
-                <a href="{{ url('all-products/' . $category->id) }}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-transparent border border-[#8C5226] text-[#8C5226] hover:bg-[#8C5226] hover:text-white font-medium text-xs tracking-wider uppercase rounded-full transition-all duration-300 group">
-                    View More
+                <a href="{{ route('products.all') }}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-transparent border border-[#8C5226] text-[#8C5226] hover:bg-[#8C5226] hover:text-white font-medium text-xs tracking-wider uppercase rounded-full transition-all duration-300 group">
+                    View All Products
                     <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
                     </svg>
                 </a>
             </div>
-        </div>
-    @empty
-        <div class="col-span-full text-center py-12 text-gray-500">
-            No products found.
-        </div>
-    @endforelse
+        @else
+            <div class="col-span-full text-center py-12 text-gray-500">
+                No products found.
+            </div>
+        @endif
+    </div>
 </section>
 <div class="max-w-7xl mx-auto px-4 py-4 sm:p-6">
     <div class="relative overflow-hidden rounded-3xl bg-[#F5EFE6] shadow-md border border-gray-100/50 flex flex-col md:flex-row items-stretch">
