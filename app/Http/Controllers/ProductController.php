@@ -8,15 +8,27 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         // Browse Categories section: sab categories dikhao
         $categories = Category::orderBy('order', 'asc')->get();
         
-        // Products section: sirf latest 20 products dikhao
-        $latestProducts = Product::latest()->take(20)->get();
+        $sort = $request->input('sort', 'price_high'); // default to price_high
 
-        return view('Home', compact('categories', 'latestProducts'));
+        $query = Product::query();
+
+        if ($sort == 'price_low') {
+            $query->orderBy('price', 'asc');
+        } elseif ($sort == 'price_high') {
+            $query->orderBy('price', 'desc');
+        } else {
+            $query->latest();
+        }
+        
+        // Products section: sirf latest 20 products dikhao
+        $latestProducts = $query->take(20)->get();
+
+        return view('Home', compact('categories', 'latestProducts', 'sort'));
     }
 
     public function allCategories()

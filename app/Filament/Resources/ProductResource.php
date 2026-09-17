@@ -83,6 +83,7 @@ class ProductResource extends Resource
                FileUpload::make('image')
     ->label('Product Images (First image will be thumbnail)')
     ->multiple()
+    ->appendFiles()
     ->reorderable()
     ->directory('products')
     ->columnSpanFull()
@@ -105,7 +106,9 @@ class ProductResource extends Resource
     {
         return $table
             ->columns([
-                ImageColumn::make('image'),
+                ImageColumn::make('image')
+                    ->stacked()
+                    ->limit(2),
                 TextColumn::make('name')->searchable()->sortable(),
                 TextColumn::make('categories.name'),
                 TextColumn::make('price')->money('PKR')->sortable(),

@@ -292,6 +292,16 @@
             </div>
         </div>
 
+        <div class="flex justify-end mb-4 px-2">
+            <form action="{{ route('home') }}" method="GET" class="flex items-center gap-2">
+                <label for="sort" class="text-sm font-medium text-gray-700">Sort by:</label>
+                <select name="sort" id="sort" class="border-gray-200 rounded-lg shadow-sm text-sm focus:ring-[#8C5226] focus:border-[#8C5226] py-1.5 px-3" onchange="this.form.submit()">
+                    <option value="price_high" {{ request('sort', 'price_high') == 'price_high' ? 'selected' : '' }}>Price: High to Low</option>
+                    <option value="price_low" {{ request('sort') == 'price_low' ? 'selected' : '' }}>Price: Low to High</option>
+                </select>
+            </form>
+        </div>
+
         @if($latestProducts->isNotEmpty())
             <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 lg:gap-8">
                 @foreach($latestProducts as $prod)
