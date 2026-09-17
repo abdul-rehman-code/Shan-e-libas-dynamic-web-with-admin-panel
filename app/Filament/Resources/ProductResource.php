@@ -68,9 +68,15 @@ class ProductResource extends Resource
                     ->multiple()
                     ->options([
                         'bridal' => 'Bridal',
-                        'formal' => 'Formal',
                         'casual' => 'Casual',
                         'handbags' => 'Handbags',
+                        'formal' => 'Formal',
+                        'winter_wear' => 'Winter Wear',
+                        'festive' => 'Festive',
+                        'luxury_wear' => 'Luxury Wear',
+                        'silk' => 'Silk',
+                        'heavy_work' => 'Heavy Work',
+                        'event_wear' => 'Event Wear',
                     ])
                     ->searchable()
                     ->placeholder('Select tags for filtering'),

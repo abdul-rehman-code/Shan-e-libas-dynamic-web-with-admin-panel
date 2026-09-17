@@ -171,7 +171,18 @@
     <div class="flex overflow-x-auto lg:flex-wrap gap-2 pb-2 lg:pb-0 scrollbar-hide snap-x">
 
         @php
-            $tags = ['bridal' => 'Bridal', 'formal' => 'Formal', 'casual' => 'Casual', 'handbags' => 'Handbags'];
+            $tags = [
+                'bridal' => 'Bridal', 
+                'casual' => 'Casual', 
+                'handbags' => 'Handbags',
+                'formal' => 'Formal', 
+                'winter_wear' => 'Winter Wear', 
+                'festive' => 'Festive',
+                'luxury_wear' => 'Luxury Wear', 
+                'silk' => 'Silk', 
+                'heavy_work' => 'Heavy Work', 
+                'event_wear' => 'Event Wear'
+            ];
         @endphp
         @foreach($tags as $key => $label)
             <button @click="tag='{{ $key }}'; fetchProducts()"
